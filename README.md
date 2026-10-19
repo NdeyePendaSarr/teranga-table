@@ -4,7 +4,7 @@
 
 **Frontend → API → validation serveur → PostgreSQL → espace admin → notifications email**
 
-🔗 **Démo en ligne :** https://restaurant-template-five-pi.vercel.app/
+🔗 **Démo en ligne :** https://teranga-table.vercel.app/
 
 ## 🖼️ Aperçu
 
