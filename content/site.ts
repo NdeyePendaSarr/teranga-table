@@ -12,8 +12,8 @@ export const site = {
   description:
     "Restaurant sénégalais moderne à Mbour. Produits locaux, recettes traditionnelles, service attentionné.",
    email: "contact@teranga-table.sn",
-   telephone: "+221 77 266 13 85",
-   whatsapp: "221772661385", 
+  telephone: "+221 77 000 00 00", // numéro fictif (projet de démonstration)
+  whatsapp: "221770000000",
    adresse: "Darou Salam, Mbour",
    adresseDetail: "Darou Salam, Mbour — Thiès, Sénégal",
 
