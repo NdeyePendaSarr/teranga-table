@@ -1,5 +1,11 @@
 import { z } from "zod";
 
+/** Nom du champ piège du formulaire (invisible pour un humain, rempli par les robots). */
+export const HONEYPOT = "site_web";
+
+/** Nombre maximum de couverts réservables en ligne. */
+export const MAX_PERSONNES = 20;
+
 /** Créneaux de réservation proposés (service midi et soir). */
 export const CRENEAUX = [
   "12:00",
@@ -35,7 +41,7 @@ export const reservationSchema = z.object({
     .number()
     .int()
     .min(1, "Au moins 1 personne")
-    .max(20, "Pour plus de 20 personnes, appelle-nous directement"),
+    .max(MAX_PERSONNES, `Pour plus de ${MAX_PERSONNES} personnes, appelle-nous directement`),
   message: z.string().trim().max(500).optional().or(z.literal("")),
 });
 

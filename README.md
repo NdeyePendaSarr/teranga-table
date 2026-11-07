@@ -1,111 +1,136 @@
-# 🍽️ Teranga Table — Application de réservation full-stack
+# 🍽️ Teranga Table — Full-stack restaurant booking app
 
-> Application web full-stack pour la gestion de réservations d'un restaurant sénégalais, développée avec Next.js, TypeScript, PostgreSQL et une API sécurisée.
+🇫🇷 [Version française](README.fr.md)
 
-**Frontend → API → validation serveur → PostgreSQL → espace admin → notifications email**
+> A full-stack web app that handles table bookings for a Senegalese restaurant, built with Next.js, React, TypeScript, PostgreSQL and a secured REST API.
 
-🔗 **Démo en ligne :** https://teranga-table.vercel.app/
+**Frontend → API → server-side validation → PostgreSQL → admin dashboard → email notifications**
 
-## 🖼️ Aperçu
+🔗 **Live demo:** https://teranga-table.vercel.app/
 
-### Site public
+> **About this project:** a personal portfolio project. The restaurant is fictional. The visual design is adapted from a static HTML/CSS template; the full-stack layer (Next.js App Router, REST API, validation, database, authentication, admin dashboard, emails, tests and CI) was built for this project.
 
-| Accueil | Nos signatures |
+The user interface is in French (the target audience is in Senegal); the code comments are in French as well.
+
+## 🖼️ Screenshots
+
+### Public website
+
+| Home | Signature dishes |
 | :---: | :---: |
-| ![Page d'accueil](public/screenshots/accueil.png) | ![Nos signatures](public/screenshots/repas.png) |
+| ![Home page](public/screenshots/accueil.png) | ![Signature dishes](public/screenshots/repas.png) |
 
-| Menu — Dîner | Menu — Jus & boissons |
+| Menu — Dinner | Menu — Juices & drinks |
 | :---: | :---: |
-| ![Menu dîner](public/screenshots/diner.png) | ![Menu jus](public/screenshots/jus.png) |
+| ![Dinner menu](public/screenshots/diner.png) | ![Drinks menu](public/screenshots/jus.png) |
 
-| Notre histoire | Appel à réserver & pied de page |
+| Our story | Booking call-to-action & footer |
 | :---: | :---: |
-| ![Page à propos](public/screenshots/hostory.png) | ![CTA et footer](public/screenshots/footer.png) |
+| ![About page](public/screenshots/hostory.png) | ![CTA and footer](public/screenshots/footer.png) |
 
-### Réservation & localisation
+### Booking & location
 
-| Formulaire de réservation | Carte de localisation |
+| Booking form | Location map |
 | :---: | :---: |
-| ![Formulaire](public/screenshots/formulaire.png) | ![Localisation](public/screenshots/localisation.png) |
+| ![Form](public/screenshots/formulaire.png) | ![Map](public/screenshots/localisation.png) |
 
-La carte de localisation (Leaflet / OpenStreetMap, marqueur doré pulsé) pointe
-vers l'adresse configurée dans `content/site.ts`.
+The location map (Leaflet / OpenStreetMap, pulsing gold marker) points to the
+address configured in `content/site.ts`.
 
-### Espace admin
+### Admin dashboard
 
-| Connexion | Tableau des réservations |
+| Login | Bookings table |
 | :---: | :---: |
-| ![Connexion admin](public/screenshots/login.png) | ![Espace admin](public/screenshots/espace-admin.png) |
+| ![Admin login](public/screenshots/login.png) | ![Admin dashboard](public/screenshots/espace-admin.png) |
 
-### 📧 Notifications par email (Brevo)
+### 📧 Email notifications (Brevo)
 
-Le client reçoit un email automatique à chaque étape de sa réservation, avec
-un template aux couleurs du restaurant (date, heure, nombre de personnes).
+Customers receive an automatic email at each step of their booking, using a
+branded template (date, time, party size).
 
-| Reçu dans la boîte de réception | Accusé de réception (à la soumission) |
+| In the inbox | Acknowledgement (on submission) |
 | :---: | :---: |
-| ![Email reçu](public/screenshots/email.png) | ![Demande reçue](public/screenshots/demande-reçue.png) |
+| ![Email received](public/screenshots/email.png) | ![Request received](public/screenshots/demande-reçue.png) |
 
-| Confirmation (par l'admin) | Annulation (par l'admin) |
+| Confirmation (by the admin) | Cancellation (by the admin) |
 | :---: | :---: |
-| ![Confirmation](public/screenshots/confirmee.png) | ![Annulation](public/screenshots/annulee.png) |
+| ![Confirmed](public/screenshots/confirmee.png) | ![Cancelled](public/screenshots/annulee.png) |
 
-## ✨ Fonctionnalités
+## ✨ Features
 
-- **Site public** : accueil éditorial, carte filtrable par catégorie, page à
-  propos, page réservation, carte de localisation Leaflet.
-- **Réservation full-stack** : formulaire → `POST /api/reservations` avec
-  **validation serveur (zod)** → enregistrement en base **PostgreSQL** (Drizzle).
-- **Espace admin** (`/admin`, protégé) : liste des réservations, filtres par
-  statut, confirmation / annulation en un clic (`PATCH /api/reservations/:id`).
-- **Notifications email transactionnelles (Brevo)** : le client reçoit
-  automatiquement un email à la soumission de sa demande (accusé de
-  réception), puis un second lorsque l'admin confirme ou annule. Envoi non
-  bloquant — un échec d'envoi ne fait jamais échouer l'action côté serveur ou
-  admin, il est simplement loggé.
-- **Authentification** : connexion par mot de passe → **cookie de session signé
-  (JWT via jose)**, `middleware` qui protège `/admin`, comparaison du mot de
-  passe à temps constant.
-- **Animations** : reveal au scroll en cascade, entrée du hero, cartes animées
-  au changement de filtre, micro-interactions — le tout désactivé si
+- **Public website**: editorial home page, menu filterable by category, about
+  page, booking page, Leaflet location map.
+- **Full-stack booking**: form → `POST /api/reservations` with **server-side
+  validation (zod)** → stored in **PostgreSQL** (Drizzle ORM).
+- **Admin dashboard** (`/admin`, protected): list of bookings, filter by
+  status, one-click confirm / cancel (`PATCH /api/reservations/:id`).
+- **Transactional emails (Brevo)**: the customer gets an acknowledgement when
+  they submit a request, then a second email when the admin confirms or
+  cancels. A failed send never fails the booking or the admin action; it is
+  only logged.
+- **Authentication**: password login → **signed session cookie (JWT via
+  jose, httpOnly)**, `middleware` protecting `/admin`, session re-checked in
+  every admin API route, constant-time password comparison.
+- **Abuse protection**:
+  - user input is **HTML-escaped** before it goes into email templates
+    (prevents injecting links or markup into emails sent from the
+    restaurant's address);
+  - **rate limiting per IP** on booking requests (5 / 10 min) and on admin
+    login (5 / 15 min), answering `429` with `Retry-After`;
+  - a **honeypot field** silently drops bot submissions;
+  - the post-login redirect only accepts internal paths (no open redirect).
+- **Animations**: staggered scroll reveal, hero entrance, animated cards when
+  the filter changes, micro-interactions — all disabled under
   `prefers-reduced-motion`.
 
 ## 🧱 Stack & architecture
 
-| Couche             | Choix                                                        |
-| ------------------ | ------------------------------------------------------------ |
+| Layer               | Choice                                                       |
+| ------------------- | ------------------------------------------------------------ |
 | Framework           | Next.js 16 (App Router, Route Handlers, middleware)          |
-| Langage             | TypeScript strict                                             |
-| Style               | Tailwind v4 + design system maison (`app/globals.css`)       |
-| Base                | PostgreSQL via **Drizzle ORM** + driver serverless **Neon**  |
-| Validation          | **zod** (partagée client + serveur)                          |
-| Auth                | **jose** (JWT signé en cookie httpOnly)                      |
-| Email transactionnel| **Brevo** (API REST, sans dépendance npm)                    |
-| Carte               | **Leaflet** + OpenStreetMap (sans clé API)                   |
-| Tests               | Vitest                                                        |
+| UI                  | React 19                                                     |
+| Language            | TypeScript (strict)                                          |
+| Styling             | Tailwind v4 + custom design system (`app/globals.css`)       |
+| Database            | PostgreSQL via **Drizzle ORM** + **Neon** serverless driver  |
+| Validation          | **zod** (shared by client and server)                        |
+| Auth                | **jose** (signed JWT in an httpOnly cookie)                  |
+| Transactional email | **Brevo** (REST API, no npm dependency)                      |
+| Map                 | **Leaflet** + OpenStreetMap (no API key)                     |
+| Tests               | Vitest                                                       |
+| CI                  | GitHub Actions                                               |
 
 ```
-app/            pages publiques, /admin, et /api (Route Handlers)
-components/      Header, Footer, MenuGrid, ReservationForm, AdminTable, RestaurantMap…
-content/         site.ts + menu.ts (contenu typé, séparé du code)
-db/              schema Drizzle + client (init paresseuse)
-lib/             validation (zod) + auth (jose) + email (notifications Brevo)
-drizzle/         migrations SQL générées
+app/            public pages, /admin, and /api (Route Handlers)
+components/     Header, Footer, MenuGrid, ReservationForm, AdminTable, RestaurantMap…
+content/        site.ts + menu.ts (typed content, kept apart from the code)
+db/             Drizzle schema + client (lazy initialisation)
+lib/            validation (zod), auth (jose), email (Brevo), rate limiting, HTML escaping
+drizzle/        generated SQL migrations
 ```
 
-## 🚀 Démarrer en local
+### API
 
-### 1. Installer
+| Method & route                 | Access | Description                                   |
+| ------------------------------ | ------ | --------------------------------------------- |
+| `POST /api/reservations`       | Public | Create a booking request (validated, rate-limited) |
+| `GET /api/reservations`        | Admin  | List bookings, most recent first              |
+| `PATCH /api/reservations/:id`  | Admin  | Change status (`confirmee` / `annulee`) and email the customer |
+| `POST /api/admin/login`        | Public | Log in, sets the session cookie (rate-limited) |
+| `POST /api/admin/logout`       | Admin  | Clear the session cookie                      |
+
+## 🚀 Run locally
+
+### 1. Install
 
 ```bash
 npm install
 ```
 
-### 2. Base de données (Neon — gratuit)
+### 2. Database (Neon — free tier)
 
-1. Crée un projet sur [neon.tech](https://neon.tech) (offre gratuite).
-2. Copie l'URL de connexion **pooled**.
-3. Copie `.env.example` en `.env` et renseigne les variables :
+1. Create a project on [neon.tech](https://neon.tech).
+2. Copy the **pooled** connection string.
+3. Copy `.env.example` to `.env` and fill in the variables:
 
 ```bash
 cp .env.example .env
@@ -113,75 +138,86 @@ cp .env.example .env
 
 ```dotenv
 DATABASE_URL="postgresql://…@…neon.tech/…?sslmode=require"
-ADMIN_PASSWORD="ton-mot-de-passe-admin"
-AUTH_SECRET="une-longue-chaine-aleatoire"   # openssl rand -base64 32
+ADMIN_PASSWORD="your-admin-password"
+AUTH_SECRET="a-long-random-string"   # openssl rand -base64 32
 ```
 
-### 3. Emails transactionnels (Brevo — gratuit, 300 emails/jour)
+### 3. Transactional emails (Brevo — free tier, 300 emails/day)
 
-1. Crée un compte sur [brevo.com](https://brevo.com).
-2. Vérifie une adresse expéditeur : menu du compte → **Paramètres** →
-   **Senders, Domains & IPs** → onglet **Senders** → ajoute et vérifie ton
-   adresse (un clic dans l'email de confirmation reçu).
-3. Crée une clé API : **Paramètres** → **SMTP & API** → onglet **Clés API &
-   MCP** → **Générer une nouvelle clé API**.
-4. Ajoute ces variables à ton `.env` :
+1. Create an account on [brevo.com](https://brevo.com).
+2. Verify a sender address: **Settings** → **Senders, Domains & IPs** →
+   **Senders** → add and verify your address.
+3. Create an API key: **Settings** → **SMTP & API** → **API Keys** →
+   **Generate a new API key**.
+4. Add these variables to your `.env`:
 
 ```dotenv
-BREVO_API_KEY="xkeysib-ta-cle"
-EMAIL_FROM="l-adresse-verifiee@exemple.com"
+BREVO_API_KEY="xkeysib-your-key"
+EMAIL_FROM="verified-address@example.com"
 EMAIL_FROM_NAME="Teranga Table"
 ```
 
-> Sans ces variables, le site fonctionne normalement — l'envoi d'email est
-> simplement sauté (log d'avertissement en console).
+> Without these variables the site still works — emails are simply skipped
+> (a warning is logged).
 
-### 4. Créer les tables
+### 4. Create the tables
 
 ```bash
-npm run db:migrate     # applique les migrations à ta base Neon
+npm run db:migrate
 ```
 
-### 5. Lancer
+### 5. Start
 
 ```bash
 npm run dev            # http://localhost:3000
 ```
 
-L'espace admin est sur **`/admin`** (mot de passe = `ADMIN_PASSWORD`).
+The admin dashboard is at **`/admin`** (password = `ADMIN_PASSWORD`).
 
-## 🧪 Commandes
+## 🧪 Commands
 
 ```bash
-npm test           # tests unitaires (Vitest)
-npm run lint       # ESLint
-npx tsc --noEmit   # types
-npm run build      # build de production
-npm run db:generate  # régénère une migration après modif du schéma
-npm run db:migrate   # applique les migrations
+npm test             # unit tests (Vitest)
+npm run lint         # ESLint
+npx tsc --noEmit     # type-check
+npm run build        # production build
+npm run db:generate  # generate a migration after a schema change
+npm run db:migrate   # apply migrations
 ```
 
-## ✅ Qualité & tests
+## ✅ Quality & tests
 
-- **TypeScript strict**, **ESLint** et build : zéro erreur.
-- **Tests Vitest** : validation des réservations (téléphone SN, date passée,
-  créneaux, bornes) et intégrité de la carte (champs, clés uniques, images
-  locales présentes).
-- **CI GitHub Actions** : lint + types + tests + build à chaque push et PR.
-- **Accessibilité** : skip-link, focus visible, navigation clavier, ARIA,
-  `prefers-reduced-motion`.
+- **Strict TypeScript**, **ESLint** and production build with zero errors.
+- **Vitest tests**: booking validation (Senegalese phone numbers, past dates,
+  time slots, limits), HTML escaping, open-redirect guard, rate limiter, and
+  menu data integrity (fields, unique keys, local images exist).
+- **GitHub Actions CI**: lint + type-check + tests + build on every push and
+  pull request.
+- **Accessibility**: skip link, visible focus, keyboard navigation, ARIA
+  attributes, `prefers-reduced-motion`.
 
-## 🌍 Déployer sur Vercel
+## ⚠️ Known limitations
 
-1. Importe le dépôt sur [vercel.com](https://vercel.com).
-2. Ajoute les **variables d'environnement** (`DATABASE_URL`, `ADMIN_PASSWORD`,
-   `AUTH_SECRET`, `BREVO_API_KEY`, `EMAIL_FROM`, `EMAIL_FROM_NAME`) dans les
-   réglages du projet, pour les 3 environnements (Production, Preview,
-   Development).
-3. Applique les migrations sur ta base Neon (`npm run db:migrate` en local
-   pointant sur la même base).
-4. Déploie, puis reporte l'URL en haut de ce README.
+- The rate limiter is in memory: on a serverless platform each instance keeps
+  its own counters, so it is a best-effort protection. A shared store such as
+  Upstash Redis can be plugged in behind the same `limiter()` function.
+- The admin area uses a single shared password (no user accounts or roles).
+- No pagination on the admin bookings list yet.
+
+## 🌍 Deploy on Vercel
+
+1. Import the repository on [vercel.com](https://vercel.com).
+2. Add the **environment variables** (`DATABASE_URL`, `ADMIN_PASSWORD`,
+   `AUTH_SECRET`, `BREVO_API_KEY`, `EMAIL_FROM`, `EMAIL_FROM_NAME`) for the
+   Production, Preview and Development environments.
+3. Apply the migrations to your Neon database (`npm run db:migrate` locally,
+   pointing to the same database).
+4. Deploy.
+
+## 📄 License
+
+[MIT](LICENSE)
 
 ---
 
-Conçu et développé par **Ndeye Penda Sarr** - 2026.
+Designed and built by **Ndeye Penda Sarr** — 2026.
