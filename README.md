@@ -8,7 +8,7 @@
 
 🔗 **Live demo:** https://teranga-table.vercel.app/
 
-> **About this project:** a personal portfolio project. The restaurant is fictional. The visual design is adapted from a static HTML/CSS template; the full-stack layer (Next.js App Router, REST API, validation, database, authentication, admin dashboard, emails, tests and CI) was built for this project.
+> **About this project:** a personal portfolio project, designed and coded entirely by me. The restaurant is fictional. It started as my own static HTML/CSS website, which I then rewrote as a full-stack Next.js app (REST API, validation, database, authentication, admin dashboard, emails, tests and CI).
 
 The user interface is in French (the target audience is in Senegal); the code comments are in French as well.
 
