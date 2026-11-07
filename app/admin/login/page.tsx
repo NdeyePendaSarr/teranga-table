@@ -2,11 +2,12 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
+import { cheminInterne } from "@/lib/redirect";
 
 function LoginForm() {
   const router = useRouter();
   const params = useSearchParams();
-  const suite = params.get("suite") || "/admin";
+  const suite = cheminInterne(params.get("suite"));
   const [motDePasse, setMotDePasse] = useState("");
   const [erreur, setErreur] = useState("");
   const [envoi, setEnvoi] = useState(false);
@@ -24,7 +25,8 @@ function LoginForm() {
       router.replace(suite);
       router.refresh();
     } else {
-      setErreur("Mot de passe incorrect.");
+      const body = await res.json().catch(() => ({}));
+      setErreur(body?.error ?? "Mot de passe incorrect.");
       setEnvoi(false);
     }
   }

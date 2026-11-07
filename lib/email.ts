@@ -1,5 +1,6 @@
 import type { Reservation } from "@/db/schema";
 import { site } from "@/content/site";
+import { echapperHtml } from "@/lib/html";
 
 const KEY = process.env.BREVO_API_KEY;
 // Adresse expéditeur VÉRIFIÉE dans Brevo (Senders). Le nom affiché par défaut
@@ -21,26 +22,29 @@ function jolieDate(iso: string): string {
 
 /** Sujet + textes propres à chaque type d'email. */
 function contenu(r: Reservation, variante: Variante) {
+  // Le prénom vient du formulaire public : on l'échappe avant de l'insérer
+  // dans le HTML de l'email (anti-injection / phishing).
+  const prenom = echapperHtml(r.prenom);
   switch (variante) {
     case "recue":
       return {
         sujet: `Demande de réservation reçue — ${site.nom}`,
         titre: "Demande reçue 📩",
-        intro: `Merci ${r.prenom}, nous avons bien reçu votre demande de réservation.`,
+        intro: `Merci ${prenom}, nous avons bien reçu votre demande de réservation.`,
         clore: "Nous revenons vers vous très vite pour la confirmer. Pour toute question, contactez-nous directement.",
       };
     case "confirmee":
       return {
         sujet: `Réservation confirmée — ${site.nom}`,
         titre: "Votre table est confirmée ✅",
-        intro: `Bonne nouvelle ${r.prenom} — nous vous attendons !`,
+        intro: `Bonne nouvelle ${prenom} — nous vous attendons !`,
         clore: "Au plaisir de vous recevoir. En cas d'empêchement, prévenez-nous.",
       };
     case "annulee":
       return {
         sujet: `Réservation annulée — ${site.nom}`,
         titre: "Réservation annulée",
-        intro: `Bonjour ${r.prenom}, votre réservation n'a malheureusement pas pu être retenue.`,
+        intro: `Bonjour ${prenom}, votre réservation n'a malheureusement pas pu être retenue.`,
         clore: "Pour trouver un autre créneau, répondez à cet email ou écrivez-nous sur WhatsApp.",
       };
   }
@@ -61,9 +65,9 @@ function gabarit(r: Reservation, c: ReturnType<typeof contenu>): string {
           <h1 style="margin:0 0 12px;font-size:22px;color:${charcoal}">${c.titre}</h1>
           <p style="margin:0 0 20px;line-height:1.6">${c.intro}</p>
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#faf5ec;border-radius:12px;padding:16px;margin-bottom:20px">
-            <tr><td style="padding:6px 12px;color:#8a7d6f;font-size:13px">Date</td><td style="padding:6px 12px;font-weight:700;text-align:right">${jolieDate(r.date)}</td></tr>
-            <tr><td style="padding:6px 12px;color:#8a7d6f;font-size:13px">Heure</td><td style="padding:6px 12px;font-weight:700;text-align:right">${r.heure}</td></tr>
-            <tr><td style="padding:6px 12px;color:#8a7d6f;font-size:13px">Personnes</td><td style="padding:6px 12px;font-weight:700;text-align:right">${r.personnes}</td></tr>
+            <tr><td style="padding:6px 12px;color:#8a7d6f;font-size:13px">Date</td><td style="padding:6px 12px;font-weight:700;text-align:right">${echapperHtml(jolieDate(r.date))}</td></tr>
+            <tr><td style="padding:6px 12px;color:#8a7d6f;font-size:13px">Heure</td><td style="padding:6px 12px;font-weight:700;text-align:right">${echapperHtml(r.heure)}</td></tr>
+            <tr><td style="padding:6px 12px;color:#8a7d6f;font-size:13px">Personnes</td><td style="padding:6px 12px;font-weight:700;text-align:right">${echapperHtml(r.personnes)}</td></tr>
           </table>
           <p style="margin:0 0 8px;line-height:1.6">${c.clore}</p>
           <p style="margin:20px 0 0;font-size:13px;color:#8a7d6f">${site.nom} · ${site.adresseDetail}<br>${site.telephone}</p>

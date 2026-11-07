@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CRENEAUX, today } from "@/lib/validation";
+import { CRENEAUX, HONEYPOT, MAX_PERSONNES, today } from "@/lib/validation";
 import { lienWhatsApp } from "@/content/site";
 
 type Etat =
@@ -70,15 +70,22 @@ export function ReservationForm() {
         <div className="form-group form-full">
           <label htmlFor="guests">Nombre de personnes <span className="required">*</span></label>
           <select id="guests" name="personnes" required defaultValue="2">
-            {Array.from({ length: 8 }, (_, i) => i + 1).map((n) => (
-              <option key={n} value={n}>{n === 8 ? "8 et plus" : `${n} personne${n > 1 ? "s" : ""}`}</option>
+            {Array.from({ length: MAX_PERSONNES }, (_, i) => i + 1).map((n) => (
+              <option key={n} value={n}>{`${n} personne${n > 1 ? "s" : ""}`}</option>
             ))}
           </select>
+          <p className="form-hint">Au-delà de {MAX_PERSONNES} personnes, contactez-nous directement.</p>
         </div>
         <div className="form-group form-full">
           <label htmlFor="message">Message (optionnel)</label>
           <textarea id="message" name="message" rows={3} placeholder="Allergies, anniversaire, préférence de table…" />
         </div>
+      </div>
+
+      {/* Champ piège anti-robots : masqué aux humains et aux lecteurs d'écran. */}
+      <div aria-hidden="true" style={{ position: "absolute", left: "-10000px", width: 1, height: 1, overflow: "hidden" }}>
+        <label htmlFor={HONEYPOT}>Ne pas remplir</label>
+        <input type="text" id={HONEYPOT} name={HONEYPOT} tabIndex={-1} autoComplete="off" />
       </div>
 
       <button type="submit" className="btn btn-primary" style={{ width: "100%", marginTop: "1.25rem", padding: "1rem" }} disabled={etat.statut === "envoi"}>
