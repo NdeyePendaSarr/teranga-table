@@ -5,7 +5,7 @@ import { reservations } from "@/db/schema";
 import { HONEYPOT, reservationSchema } from "@/lib/validation";
 import { estAdmin } from "@/lib/auth";
 import { notifierDemandeRecue } from "@/lib/email";
-import { ipClient, limiter } from "@/lib/rateLimit";
+import { ipClient, limiter, LIMITE_RESERVATIONS, messageLimite, minutesAttente } from "@/lib/rateLimit";
 
 type Issue = "envoyee" | "erreur" | "limite";
 
@@ -21,15 +21,18 @@ type Issue = "envoyee" | "erreur" | "limite";
 export async function POST(req: Request) {
   const type = req.headers.get("content-type") ?? "";
   const formulaireHtml = type.includes("application/x-www-form-urlencoded") || type.includes("multipart/form-data");
-  const retour = (issue: Issue) =>
-    NextResponse.redirect(new URL(`/reservation?demande=${issue}#formulaire`, req.url), 303);
+  const retour = (issue: Issue, extra = "") =>
+    NextResponse.redirect(new URL(`/reservation?demande=${issue}${extra}#formulaire`, req.url), 303);
 
   // 5 demandes / 10 min par IP : protège la base et le quota d'emails Brevo.
-  const rl = limiter(`resa:${ipClient(req)}`, 5, 10 * 60 * 1000);
+  // Compté avant le honeypot : les essais d'un robot épuisent aussi sa limite.
+  const rl = limiter(`resa:${ipClient(req)}`, LIMITE_RESERVATIONS.max, LIMITE_RESERVATIONS.fenetreMs);
   if (!rl.ok) {
-    if (formulaireHtml) return retour("limite");
+    const minutes = minutesAttente(rl.retryAfter);
+    // Sans JS : seul le délai (un entier) passe dans l'URL, jamais de donnée saisie.
+    if (formulaireHtml) return retour("limite", `&attente=${minutes}`);
     return NextResponse.json(
-      { error: "Trop de demandes. Réessayez plus tard ou contactez-nous sur WhatsApp." },
+      { error: messageLimite(minutes) },
       { status: 429, headers: { "Retry-After": String(rl.retryAfter) } }
     );
   }

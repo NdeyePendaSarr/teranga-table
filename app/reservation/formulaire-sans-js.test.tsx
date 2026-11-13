@@ -23,4 +23,13 @@ describe("page Réservation sans JavaScript : formulaire", () => {
     expect(await rendu("limite")).toMatch(/role="alert"[^>]*>[^<]*Trop de demandes/);
     expect(await rendu()).not.toContain('role="alert"');
   });
+
+  it("limite atteinte : indique le délai en minutes, borné et sans injection", async () => {
+    const avec = async (attente: string) =>
+      renderToString(await ReservationPage({ searchParams: Promise.resolve({ demande: "limite", attente }) }));
+    expect(await avec("7")).toContain("Réessayez dans 7 minutes");
+    expect(await avec("1")).toContain("Réessayez dans 1 minute,");
+    expect(await avec("999")).toContain("Réessayez dans 10 minutes");
+    expect(await avec("<script>")).toContain("Réessayez dans quelques minutes");
+  });
 });
