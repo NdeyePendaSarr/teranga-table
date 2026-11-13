@@ -9,11 +9,12 @@
   --white: #ffffff;
   --ink: #1a1512;
   --ink-soft: #423a33;
-  --muted: #8a7d6f;
+  --muted: #6f6356;         /* gris chaud du texte secondaire : >= 4,85:1 sur tous les fonds clairs (WCAG AA) */
   --charcoal: #17211c;      /* vert vétiver très profond (au lieu du gris) */
   --charcoal-2: #1f2c25;
   --forest: #24352c;        /* vert forêt pour accents sombres */
-  --gold: #a86518;          /* ambre profond, plus riche */
+  --gold: #a86518;          /* ambre profond : fonds, bordures, logo (grand texte) */
+  --gold-text: #94570f;     /* ambre pour du texte courant : >= 4,8:1 sur crème, blanc, or pâle */
   --gold-light: #c8871f;
   --gold-bright: #e0a53a;   /* or clair pour les touches lumineuses */
   --gold-pale: #f6e9cf;
@@ -72,7 +73,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.
   font-weight: 700;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--gold-text);
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
@@ -121,7 +122,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.
 }
 .btn-outline-dark:hover { background: var(--ink); color: white; }
 .btn-ghost {
-  color: var(--gold);
+  color: var(--gold-text);
   padding-inline: 0;
 }
 .btn-ghost:hover { color: var(--terracotta); }
@@ -180,7 +181,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.
   color: var(--ink-soft);
 }
 .nav a:hover,
-.nav a.active { color: var(--gold); }
+.nav a.active { color: var(--gold-text); }
 .nav a.active { font-weight: 600; }
 
 .nav-cta {
@@ -232,7 +233,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.
   border-radius: var(--radius-sm);
 }
 .mobile-nav a:hover,
-.mobile-nav a.active { color: var(--gold); background: var(--gold-pale); }
+.mobile-nav a.active { color: var(--gold-text); background: var(--gold-pale); }
 .mobile-nav .nav-cta {
   margin-top: 0.5rem;
   text-align: center;
@@ -369,6 +370,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.
   position: relative;
   padding: 1.5rem 1.5rem 1.6rem;
 }
+.card-body h2,
 .card-body h3 {
   font-size: 1.35rem;
   font-style: italic;
@@ -417,7 +419,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.
   border: 1px solid var(--border);
   transition: var(--transition);
 }
-.filter-btn:hover { border-color: var(--gold); color: var(--gold); }
+.filter-btn:hover { border-color: var(--gold); color: var(--gold-text); }
 .filter-btn.active {
   background: var(--gold);
   color: white;
@@ -604,7 +606,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.
   color: var(--ink);
   font-size: 1.05rem;
 }
-.contact-pill a:hover { color: var(--gold); }
+.contact-pill a:hover { color: var(--gold-text); }
 
 /* ---- Footer ---- */
 .footer {
@@ -625,7 +627,8 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.
 }
 .footer-brand .logo { color: white; margin-bottom: 0.75rem; display: inline-block; }
 .footer-brand p { font-size: 0.9rem; max-width: 260px; line-height: 1.6; }
-.footer h4 {
+/* Titres du pied de page : h2 (hiérarchie des titres), style de petit intertitre */
+.footer h2 {
   color: white;
   font-family: var(--font-body);
   font-size: 0.8rem;
@@ -971,6 +974,6 @@ textarea:focus-visible, select:focus-visible {
 .badge.confirmee { background: #e6f3ea; color: #1f6b3b; }
 .badge.annulee { background: #f5e7e4; color: #8a4034; }
 .btn-mini { padding: 0.35rem 0.8rem; font-size: 0.82rem; border-radius: 999px; border: 1px solid var(--border); background: var(--white); color: var(--ink-soft); font-weight: 600; transition: var(--transition); }
-.btn-mini:hover:not(:disabled) { border-color: var(--gold); color: var(--gold); }
+.btn-mini:hover:not(:disabled) { border-color: var(--gold); color: var(--gold-text); }
 .btn-mini:disabled { opacity: 0.4; cursor: not-allowed; }
 .login-card { max-width: 380px; margin-inline: auto; }
