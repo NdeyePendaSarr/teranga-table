@@ -745,25 +745,13 @@ textarea:focus-visible {
   }
 }
 
-/* ---- Entrée du hero au chargement : glissement seul ----
-   Pas de fondu : le titre et le sous-titre (élément LCP) sont peints dès le
-   premier rendu, l'animation ne fait que les déplacer de quelques pixels. */
-@keyframes heroIn {
-  from { transform: translateY(14px); }
-  to   { transform: none; }
-}
-@media (prefers-reduced-motion: no-preference) {
-  /* TEST (branche jetable) : animation du hero désactivée pour mesurer
-     son effet sur le Speed Index. Ne pas fusionner. */
-  .hero-content > * {
-    animation: none;
-  }
-  .hero-content > *:nth-child(1) { animation-delay: 0.05s; }
-  .hero-content > *:nth-child(2) { animation-delay: 0.15s; }
-  .hero-content > *:nth-child(3) { animation-delay: 0.25s; }
-  .hero-content > *:nth-child(4) { animation-delay: 0.35s; }
-  .hero-content > *:nth-child(5) { animation-delay: 0.45s; }
-}
+/* ---- Hero : volontairement sans animation d'entrée ----
+   Le titre et le sous-titre s'affichent dès le premier rendu, sans fondu ni
+   glissement. Choix du 13/11/2026 après mesure : sur un build local
+   comparé avec la méthode speedline de Lighthouse (5 runs alternés, mobile,
+   réseau lent simulé), l'ancien glissement de 14 px ne changeait pas le
+   Speed Index de façon mesurable ; il n'apportait donc rien à la vitesse
+   perçue, et la page est plus calme sans. */
 
 /* ---- Entrée des cartes du menu au changement de filtre ----
    Classe ajoutée côté client seulement après un clic sur un filtre (jamais
