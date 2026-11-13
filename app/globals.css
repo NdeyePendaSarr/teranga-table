@@ -567,6 +567,8 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.
   border: 1px solid #fecaca;
 }
 .form-message.hidden { display: none; }
+/* Résultat d'un envoi sans JavaScript, affiché au-dessus du formulaire */
+.form-issue { max-width: 640px; margin: 0 auto 1.25rem; }
 
 /* ---- Map ---- */
 

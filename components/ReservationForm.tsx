@@ -34,7 +34,10 @@ export function ReservationForm() {
   }
 
   return (
-    <form className="form-card reveal" onSubmit={onSubmit}>
+    // method/action : sans JavaScript, le navigateur envoie le formulaire en
+    // POST à l'API, qui redirige vers /reservation?demande=… (rien dans l'URL).
+    // Avec JavaScript, onSubmit prend la main et envoie du JSON.
+    <form className="form-card reveal" id="formulaire" method="post" action="/api/reservations" onSubmit={onSubmit}>
       <div className="form-grid">
         <div className="form-group">
           <label htmlFor="firstname">Prénom <span className="required">*</span></label>
