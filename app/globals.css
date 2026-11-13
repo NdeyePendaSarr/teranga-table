@@ -715,47 +715,61 @@ textarea:focus-visible {
    ANIMATIONS — reveal au scroll + entrée hero + filtres carte
    ============================================================ */
 
-/* ---- Reveal générique : fade + léger déplacement vers le haut ---- */
-.reveal {
-  opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
+/* ---- Principe : le contenu est VISIBLE dans le HTML serveur ----
+   Aucun bloc ne démarre à opacity 0 et aucune animation ne dépend de
+   JavaScript. Sans JS, ou si le navigateur ne gère pas une fonctionnalité,
+   tout s'affiche simplement à sa place. Le mouvement est un bonus ajouté
+   seulement si l'utilisateur n'a pas demandé moins de mouvement.
+   (Garde-fou automatique : app/sans-js.test.tsx.) */
+
+/* ---- Reveal au défilement : léger glissement, sans fondu ----
+   Lié au défilement par animation-timeline (CSS uniquement). Les navigateurs
+   qui ne le gèrent pas affichent le contenu sans animation. */
+@keyframes revealIn {
+  from { transform: translateY(28px); }
+  to   { transform: none; }
 }
-.reveal.is-visible { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: revealIn linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+    /* Léger décalage en cascade dans les groupes de cartes / avis / infos */
+    .reveal-group > .reveal:nth-child(2) { animation-range: entry 8% entry 78%; }
+    .reveal-group > .reveal:nth-child(3) { animation-range: entry 16% entry 86%; }
+  }
+}
 
-/* Décalage en cascade pour les groupes de cartes / avis / infos */
-.reveal-group > .reveal:nth-child(1) { transition-delay: 0s; }
-.reveal-group > .reveal:nth-child(2) { transition-delay: 0.12s; }
-.reveal-group > .reveal:nth-child(3) { transition-delay: 0.24s; }
-.reveal-group > .reveal:nth-child(4) { transition-delay: 0.36s; }
-.reveal-group > .reveal:nth-child(5) { transition-delay: 0.48s; }
-.reveal-group > .reveal:nth-child(6) { transition-delay: 0.6s; }
-
-/* ---- Entrée du hero au chargement (cascade automatique) ---- */
+/* ---- Entrée du hero au chargement : glissement seul ----
+   Pas de fondu : le titre et le sous-titre (élément LCP) sont peints dès le
+   premier rendu, l'animation ne fait que les déplacer de quelques pixels. */
 @keyframes heroIn {
-  from { opacity: 0; transform: translateY(18px); }
-  to   { opacity: 1; transform: none; }
+  from { transform: translateY(14px); }
+  to   { transform: none; }
 }
-.hero-content > * {
-  opacity: 0;
-  animation: heroIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+@media (prefers-reduced-motion: no-preference) {
+  .hero-content > * {
+    animation: heroIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .hero-content > *:nth-child(1) { animation-delay: 0.05s; }
+  .hero-content > *:nth-child(2) { animation-delay: 0.15s; }
+  .hero-content > *:nth-child(3) { animation-delay: 0.25s; }
+  .hero-content > *:nth-child(4) { animation-delay: 0.35s; }
+  .hero-content > *:nth-child(5) { animation-delay: 0.45s; }
 }
-.hero-content > *:nth-child(1) { animation-delay: 0.05s; }
-.hero-content > *:nth-child(2) { animation-delay: 0.15s; }
-.hero-content > *:nth-child(3) { animation-delay: 0.25s; }
-.hero-content > *:nth-child(4) { animation-delay: 0.35s; }
-.hero-content > *:nth-child(5) { animation-delay: 0.45s; }
 
-/* ---- Entrée des cartes du menu au changement de filtre ---- */
+/* ---- Entrée des cartes du menu au changement de filtre ----
+   Classe ajoutée côté client seulement après un clic sur un filtre (jamais
+   dans le HTML serveur). Départ à 0,35 d'opacité : plus de « flash » vide. */
 @keyframes cardIn {
-  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  from { opacity: 0.35; transform: translateY(16px) scale(0.98); }
   to   { opacity: 1; transform: none; }
 }
 .card-enter {
-  opacity: 0;
-  animation: cardIn 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: cardIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i, 0) * 50ms);
 }
 
 

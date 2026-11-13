@@ -38,7 +38,7 @@ export default async function ReservationPage({
           ) : null}
           <ReservationForm />
 
-          <div className="contact-aside reveal" style={{ transitionDelay: "0.15s" }}>
+          <div className="contact-aside reveal">
             <div className="contact-pill">
               <p className="label">Téléphone</p>
               <a href={`tel:${site.telephone.replace(/\s/g, "")}`}>{site.telephone}</a>
@@ -49,7 +49,7 @@ export default async function ReservationPage({
             </div>
           </div>
 
-          <div className="map-wrap reveal" style={{ transitionDelay: "0.25s" }}>
+          <div className="map-wrap reveal">
             <RestaurantMap />
           </div>
         </div>

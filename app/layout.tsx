@@ -4,7 +4,6 @@ import { site } from "@/content/site";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
-import { RevealController } from "@/components/RevealController";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -48,7 +47,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="contenu">{children}</main>
         <Footer />
         <WhatsAppFab />
-        <RevealController />
       </body>
     </html>
   );
