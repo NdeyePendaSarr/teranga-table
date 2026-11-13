@@ -12,6 +12,20 @@ const compteurs = new Map<string, Compteur>();
 
 export type Resultat = { ok: boolean; retryAfter: number };
 
+/** Demandes de réservation : au plus 5 par 10 minutes et par IP. */
+export const LIMITE_RESERVATIONS = { max: 5, fenetreMs: 10 * 60 * 1000 };
+
+/** Secondes d'attente → minutes entières, arrondies au-dessus (au moins 1). */
+export function minutesAttente(secondes: number): number {
+  return Math.max(1, Math.ceil(secondes / 60));
+}
+
+/** Message affiché quand la limite est atteinte, avec le délai en minutes. */
+export function messageLimite(minutes: number | null): string {
+  const delai = minutes === null ? "quelques minutes" : `${minutes} minute${minutes > 1 ? "s" : ""}`;
+  return `Trop de demandes depuis votre connexion. Réessayez dans ${delai}, ou contactez-nous directement sur WhatsApp.`;
+}
+
 export function limiter(
   cle: string,
   max: number,

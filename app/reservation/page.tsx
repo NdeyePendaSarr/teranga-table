@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { site, lienItineraire } from "@/content/site";
+import { LIMITE_RESERVATIONS, messageLimite } from "@/lib/rateLimit";
 import { ReservationForm } from "@/components/ReservationForm";
 import { RestaurantMap } from "@/components/RestaurantMap";
 
@@ -12,16 +13,23 @@ export const metadata: Metadata = {
 const ISSUES = {
   envoyee: { role: "status", classe: "success", texte: "Demande envoyée ! Nous vous confirmons très vite, par e-mail ou par téléphone." },
   erreur: { role: "alert", classe: "error", texte: "Certains champs sont invalides. Vérifiez le formulaire, ou contactez-nous sur WhatsApp." },
-  limite: { role: "alert", classe: "error", texte: "Trop de demandes depuis votre connexion. Réessayez plus tard, ou contactez-nous sur WhatsApp." },
+  limite: { role: "alert", classe: "error", texte: messageLimite(null) },
 } as const;
 
 export default async function ReservationPage({
   searchParams,
 }: {
-  searchParams: Promise<{ demande?: string }>;
+  searchParams: Promise<{ demande?: string; attente?: string }>;
 }) {
-  const { demande } = await searchParams;
-  const issue = demande && demande in ISSUES ? ISSUES[demande as keyof typeof ISSUES] : null;
+  const { demande, attente } = await searchParams;
+  let issue: { role: string; classe: string; texte: string } | null =
+    demande && demande in ISSUES ? ISSUES[demande as keyof typeof ISSUES] : null;
+  if (demande === "limite") {
+    // Délai lu dans l'URL : entier uniquement, borné à la fenêtre de la limite.
+    const max = LIMITE_RESERVATIONS.fenetreMs / 60000;
+    const n = /^\d{1,4}$/.test(attente ?? "") ? Math.min(max, Math.max(1, Number(attente))) : null;
+    issue = { ...ISSUES.limite, texte: messageLimite(n) };
+  }
 
   return (
     <>
