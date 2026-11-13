@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { site } from "@/content/site";
+import { site, lienItineraire } from "@/content/site";
 import { ReservationForm } from "@/components/ReservationForm";
 import { RestaurantMap } from "@/components/RestaurantMap";
 
@@ -50,6 +50,16 @@ export default async function ReservationPage({
           </div>
 
           <div className="map-wrap reveal">
+            {/* Adresse et itinéraire dans le HTML : utilisables sans la carte ni JavaScript */}
+            <div className="map-infos">
+              <p>
+                <span className="label">Nous trouver</span>
+                <span className="value">{site.adresseDetail}</span>
+              </p>
+              <a className="btn btn-primary btn-sm" href={lienItineraire()} target="_blank" rel="noopener noreferrer">
+                Itinéraire
+              </a>
+            </div>
             <RestaurantMap />
           </div>
         </div>
