@@ -106,7 +106,7 @@ export function ReservationForm() {
 
       <p className="form-hint" style={{ textAlign: "center", marginTop: "1rem" }}>
         Ou réservez directement sur{" "}
-        <a href={lienWhatsApp()} style={{ color: "var(--gold)", fontWeight: 600 }} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <a href={lienWhatsApp()} style={{ color: "var(--gold-text)", fontWeight: 600 }} target="_blank" rel="noopener noreferrer">WhatsApp</a>
       </p>
     </form>
   );
