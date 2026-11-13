@@ -1,21 +1,34 @@
 import type { Metadata } from "next";
-import { Fraunces, DM_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import { site } from "@/content/site";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
 import "./globals.css";
 
-const fraunces = Fraunces({
+// Polices hébergées dans le dépôt (app/fonts, licence SIL OFL 1.1, voir
+// app/fonts/LICENCES.md) : le build ne télécharge plus rien chez Google Fonts.
+// Mêmes fichiers (sous-ensemble latin, polices variables) et mêmes plages de
+// graisse qu'avant. Les polices de secours ajustées sont déclarées dans
+// globals.css avec les valeurs exactes qu'utilisait Google Fonts : le calcul
+// automatique de next/font/local donnait un Fraunces de secours 11 % plus
+// grand, donc un risque de décalage de mise en page au remplacement.
+const fraunces = localFont({
   variable: "--font-fraunces",
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  weight: ["500", "600", "700"],
+  src: [
+    { path: "./fonts/fraunces-latin.woff2", weight: "500 700", style: "normal" },
+    { path: "./fonts/fraunces-italic-latin.woff2", weight: "500 700", style: "italic" },
+  ],
+  display: "swap",
+  adjustFontFallback: false,
+  fallback: ["Fraunces Fallback", "Georgia", "serif"],
 });
-const dmSans = DM_Sans({
+const dmSans = localFont({
   variable: "--font-dm-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  src: [{ path: "./fonts/dm-sans-latin.woff2", weight: "400 700", style: "normal" }],
+  display: "swap",
+  adjustFontFallback: false,
+  fallback: ["DM Sans Fallback", "Arial", "sans-serif"],
 });
 
 export const metadata: Metadata = {

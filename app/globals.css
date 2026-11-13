@@ -3,6 +3,27 @@
    Palette : crème, charcoal, or, terracotta
    ============================================================ */
 
+/* Polices de secours ajustées, affichées le temps que Fraunces et DM Sans
+   (app/fonts) se chargent. Valeurs reprises telles quelles du CSS que
+   générait next/font/google : la taille et l'interligne du texte ne bougent
+   pas au remplacement (pas de décalage de mise en page). */
+@font-face {
+  font-family: "Fraunces Fallback";
+  src: local("Times New Roman");
+  ascent-override: 84.71%;
+  descent-override: 22.09%;
+  line-gap-override: 0%;
+  size-adjust: 115.45%;
+}
+@font-face {
+  font-family: "DM Sans Fallback";
+  src: local("Arial");
+  ascent-override: 94.9%;
+  descent-override: 29.66%;
+  line-gap-override: 0%;
+  size-adjust: 104.53%;
+}
+
 :root {
   --cream: #faf5ec;
   --cream-dark: #f2e9d9;
