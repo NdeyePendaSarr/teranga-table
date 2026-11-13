@@ -836,15 +836,13 @@ textarea:focus-visible {
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), filter 0.5s ease;
 }
 
-/* Le bouton WhatsApp flottant respire légèrement */
-@keyframes floatPulse {
-  0%, 100% { transform: translateY(0); box-shadow: 0 6px 20px rgba(37,211,102,0.35); }
-  50%      { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(37,211,102,0.45); }
-}
-.wa-fab {
-  animation: floatPulse 3s ease-in-out infinite;
-}
-.wa-fab:hover { animation-play-state: paused; }
+/* Bouton WhatsApp flottant : volontairement sans animation. Vert vif et fixé
+   à l'écran, il se voit sans bouger ; l'ancienne pulsation en boucle
+   empêchait la page d'être visuellement stable (~7,7 s contre ~4,7 s sans,
+   mesure locale du 13/11/2026), animait box-shadow (repeint à chaque image)
+   et distrayait la lecture. Seul l'effet de survol reste (.wa-fab:hover).
+   Garde-fou : app/animations.test.tsx (aucune animation sans fin,
+   uniquement transform/opacity). */
 
 /* ---- Repos total si l'utilisateur préfère moins de mouvement ---- */
 @media (prefers-reduced-motion: reduce) {
