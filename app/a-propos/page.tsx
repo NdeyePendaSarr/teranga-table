@@ -41,7 +41,7 @@ export default function AProposPage() {
               <Link href="/reservation" className="btn btn-primary">Réserver une table</Link>
             </p>
           </div>
-          <div className="about-image reveal" style={{ transitionDelay: "0.15s" }}>
+          <div className="about-image reveal">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=900&q=80"

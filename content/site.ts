@@ -41,3 +41,8 @@ export function lienWhatsApp(message?: string): string {
   );
   return `https://wa.me/${site.whatsapp}?text=${msg}`;
 }
+
+/** Itinéraire vers le restaurant (Google Maps, ouvre l'appli sur téléphone). */
+export function lienItineraire(): string {
+  return `https://www.google.com/maps/dir/?api=1&destination=${site.lat},${site.lng}`;
+}
