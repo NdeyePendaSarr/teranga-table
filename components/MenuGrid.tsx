@@ -55,7 +55,8 @@ export function MenuGrid({ plats }: { plats: Plat[] }) {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img className="card-img" src={p.img} alt={p.nom} loading="lazy" width={400} height={275} />
               <div className="card-body">
-                <h3>{p.nom}</h3>
+                {/* h2 : la page Carte n'a pas d'autre titre entre le h1 et les plats */}
+                <h2>{p.nom}</h2>
                 <p>{p.desc}</p>
                 <p className="card-price">{p.prix}</p>
               </div>

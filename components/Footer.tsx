@@ -13,7 +13,7 @@ export function Footer() {
             <p>{site.description}</p>
           </div>
           <div>
-            <h4>Contact</h4>
+            <h2>Contact</h2>
             <ul className="footer-links">
               <li><a href={`tel:${site.telephone.replace(/\s/g, "")}`}>{site.telephone}</a></li>
               <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
@@ -21,7 +21,7 @@ export function Footer() {
             </ul>
           </div>
           <div>
-            <h4>Navigation</h4>
+            <h2>Navigation</h2>
             <ul className="footer-links">
               <li><Link href="/menu">Carte</Link></li>
               <li><Link href="/a-propos">À propos</Link></li>

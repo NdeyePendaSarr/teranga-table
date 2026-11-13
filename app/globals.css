@@ -370,6 +370,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.
   position: relative;
   padding: 1.5rem 1.5rem 1.6rem;
 }
+.card-body h2,
 .card-body h3 {
   font-size: 1.35rem;
   font-style: italic;
@@ -626,7 +627,8 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.
 }
 .footer-brand .logo { color: white; margin-bottom: 0.75rem; display: inline-block; }
 .footer-brand p { font-size: 0.9rem; max-width: 260px; line-height: 1.6; }
-.footer h4 {
+/* Titres du pied de page : h2 (hiérarchie des titres), style de petit intertitre */
+.footer h2 {
   color: white;
   font-family: var(--font-body);
   font-size: 0.8rem;
