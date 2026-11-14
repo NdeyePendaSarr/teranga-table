@@ -61,6 +61,7 @@ export default function AccueilPage() {
           <div className="section-header reveal">
             <p className="eyebrow">Avis</p>
             <h2>Ce qu'ils en disent</h2>
+            <p>Avis fictifs : Teranga Table est un restaurant imaginaire, créé pour ce projet.</p>
           </div>
           <div className="testimonials reveal-group">
             {avis.map((t, i) => (
