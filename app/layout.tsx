@@ -31,6 +31,18 @@ const dmSans = localFont({
   fallback: ["DM Sans Fallback", "Arial", "sans-serif"],
 });
 
+// Image d'aperçu des liens partagés (WhatsApp, réseaux sociaux) : JPEG
+// 1200 × 630 de 69 kB dans public/. Déclarée ici plutôt que par le fichier
+// app/opengraph-image.jpg, car Turbopack ignore les fichiers .alt.txt : le
+// texte alternatif n'était pas publié.
+const IMAGE_PARTAGE = {
+  url: "/og-teranga-table.jpg",
+  width: 1200,
+  height: 630,
+  type: "image/jpeg",
+  alt: "Teranga Table, restaurant sénégalais à Mbour : « La cuisine sénégalaise, revisitée ». Réservation en ligne.",
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
@@ -46,8 +58,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_FR",
     url: site.url,
+    images: [IMAGE_PARTAGE],
   },
-  twitter: { card: "summary_large_image" },
+  twitter: { card: "summary_large_image", images: [IMAGE_PARTAGE] },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
