@@ -25,7 +25,7 @@ const PHOTOS_RETIREES: Record<string, string> = {
 };
 // Pastels au thon, Poulet frites et Poisson braisé ont retrouvé une photo
 // fidèle (Wikimedia Commons, CC BY-SA 4.0) ; ces cinq-là restent sans photo.
-const PLATS_SANS_PHOTO = ["Accras de crevettes", "Thiakry", "Sombi", "Bissap glacé", "Jus de gingembre"];
+const PLATS_SANS_PHOTO = ["Accras de crevettes", "Thiakry", "Sombi", "Bissap glacé", "Jus de gingembre", "Café Touba"];
 // Seule photo distante conservée : Brochettes (dibi), grillade mixte, licence Unsplash.
 const DISTANTES_AUTORISEES = ["https://images.unsplash.com/photo-1555939594-58d7cb561ad1"];
 
@@ -115,5 +115,14 @@ describe("photos Wikimedia Commons : crédits obligatoires (CC BY-SA 4.0)", () =
       expect(html).toContain(`href="${c.licenceUrl}"`);
       expect(html).toContain(`href="${c.source}"`);
     }
+  });
+});
+
+/** La liste « Également à la carte » s'affiche sur deux colonnes : un nombre pair de plats la garde équilibrée. */
+describe("liste des plats sans photo : deux colonnes équilibrées", () => {
+  it("compte un nombre pair de plats, le dernier étant le café Touba (boisson)", () => {
+    const sans = menu.filter((p) => !p.img);
+    expect(sans.length % 2).toBe(0);
+    expect(sans.at(-1)).toMatchObject({ nom: "Café Touba", cat: "boissons" });
   });
 });
