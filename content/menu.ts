@@ -24,9 +24,25 @@ export type Plat = {
    * plat. La carte affiche alors une carte « texte ».
    */
   img?: string;
+  /** Texte alternatif de la photo, quand elle ne montre pas exactement le nom du plat. */
+  imgAlt?: string;
+  /** Crédit obligatoire pour une photo sous licence libre (affiché sous la carte). */
+  credit?: Credit;
   /** Plat mis en avant sur l'accueil. */
   signature?: boolean;
 };
+
+export type Credit = {
+  auteur: string;
+  licence: "CC BY-SA 4.0";
+  licenceUrl: string;
+  /** Page du fichier sur Wikimedia Commons. */
+  source: string;
+  /** Modification apportée (exigée par CC BY-SA pour une œuvre adaptée). */
+  modification?: string;
+};
+
+const CC_BY_SA_4 = { licence: "CC BY-SA 4.0", licenceUrl: "https://creativecommons.org/licenses/by-sa/4.0/deed.fr" } as const;
 
 export const menu: Plat[] = [
   {
@@ -34,6 +50,9 @@ export const menu: Plat[] = [
     desc: "Beignets croustillants farcis au thon épicé, sauce maison",
     prix: "1 500 F",
     cat: "entrees",
+    img: "/plats/pastels-fataya.jpg",
+    imgAlt: "Fataya, chaussons frits proches des pastels",
+    credit: { auteur: "Cheikh cherif", ...CC_BY_SA_4, source: "https://commons.wikimedia.org/wiki/File:Fataya.jpg", modification: "recadrée et redimensionnée" },
   },
   {
     nom: "Accras de crevettes",
@@ -84,12 +103,17 @@ export const menu: Plat[] = [
     desc: "Poulet grillé mariné, frites maison, sauce oignon",
     prix: "4 000 F",
     cat: "diner",
+    img: "/plats/poulet-frites.jpg",
+    credit: { auteur: "Mandanye", ...CC_BY_SA_4, source: "https://commons.wikimedia.org/wiki/File:Plat_de_frites_au_poulet.jpg" },
   },
   {
     nom: "Poisson braisé",
-    desc: "Capitaine grillé, attiéké ou riz, sauce oignon citronnée",
+    desc: "Dorade grillée à la sénégalaise, pommes de terre sautées, sauce oignon citronnée",
     prix: "5 000 F",
     cat: "diner",
+    img: "/plats/poisson-braise-dorade.jpg",
+    imgAlt: "Dorade grillée à la sénégalaise, pommes de terre sautées",
+    credit: { auteur: "Ourytima", ...CC_BY_SA_4, source: "https://commons.wikimedia.org/wiki/File:Dorate_grill%C3%A9_%C3%A0_la_s%C3%A9n%C3%A9galaise.jpg", modification: "recadrée et redimensionnée" },
   },
   {
     nom: "Brochettes de bœuf (dibi)",

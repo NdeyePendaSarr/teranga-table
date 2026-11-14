@@ -424,6 +424,12 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.
 .plat-ligne-prix { font-weight: 700; color: var(--gold-text); white-space: nowrap; }
 .plat-ligne-desc { color: var(--muted); font-size: 0.95rem; margin-top: 0.3rem; line-height: 1.55; }
 
+/* Crédits des photos sous licence libre (CC BY-SA), en bas de la carte */
+.credits-photos { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--border); font-size: 0.85rem; color: var(--muted); }
+.credits-photos h2 { font-family: var(--font-body); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 0.5rem; }
+.credits-photos ul { list-style: none; display: grid; gap: 0.25rem; }
+.credits-photos a { color: var(--ink-soft); text-decoration: underline; text-underline-offset: 2px; }
+
 /* Prix en médaillon doré, ancré en haut à droite du corps */
 .card-body .card-price {
   position: absolute;

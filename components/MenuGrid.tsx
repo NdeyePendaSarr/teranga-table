@@ -59,7 +59,7 @@ export function MenuGrid({ plats }: { plats: Plat[] }) {
                 style={aFiltre ? ({ "--i": Math.min(i, 8) } as React.CSSProperties) : undefined}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="card-img" src={p.img} alt={p.nom} loading="lazy" width={400} height={275} />
+                <img className="card-img" src={p.img} alt={p.imgAlt ?? p.nom} loading="lazy" width={400} height={275} />
                 <div className="card-body">
                   {/* h2 : la page Carte n'a pas d'autre titre entre le h1 et les plats */}
                   <h2>{p.nom}</h2>

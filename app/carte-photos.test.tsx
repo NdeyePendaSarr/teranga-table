@@ -23,7 +23,9 @@ const PHOTOS_RETIREES: Record<string, string> = {
   "photo-1544145945": "Bissap glacé (cocktails en verres à martini)",
   "photo-1622597467836": "Jus de gingembre (smoothies)",
 };
-const PLATS_SANS_PHOTO = ["Pastels au thon", "Accras de crevettes", "Poulet frites", "Poisson braisé", "Thiakry", "Sombi", "Bissap glacé", "Jus de gingembre"];
+// Pastels au thon, Poulet frites et Poisson braisé ont retrouvé une photo
+// fidèle (Wikimedia Commons, CC BY-SA 4.0) ; ces cinq-là restent sans photo.
+const PLATS_SANS_PHOTO = ["Accras de crevettes", "Thiakry", "Sombi", "Bissap glacé", "Jus de gingembre"];
 // Seule photo distante conservée : Brochettes (dibi), grillade mixte, licence Unsplash.
 const DISTANTES_AUTORISEES = ["https://images.unsplash.com/photo-1555939594-58d7cb561ad1"];
 
@@ -48,7 +50,7 @@ describe("carte : photos fidèles aux plats", () => {
     expect(restes).toEqual([]);
   });
 
-  it("les 8 plats concernés n'ont plus de photo ; les autres gardent une photo locale ou autorisée", () => {
+  it("les plats sans photo fidèle n'ont pas de photo ; les autres gardent une photo locale ou autorisée", () => {
     expect(menu.filter((p) => !p.img).map((p) => p.nom).sort()).toEqual([...PLATS_SANS_PHOTO].sort());
     for (const p of menu.filter((x) => x.img)) {
       const ok = p.img!.startsWith("/plats/") ? existsSync(join(RACINE, "public", p.img!)) : DISTANTES_AUTORISEES.some((u) => p.img!.startsWith(u));
@@ -68,5 +70,50 @@ describe("carte : photos fidèles aux plats", () => {
     cartes.forEach((c, i) => { expect(c, avec[i].nom).toContain("<img"); expect(c).toContain(avec[i].prix); });
     lignes.forEach((l, i) => { expect(l).not.toContain("<img"); expect(l, sans[i].nom).toContain(sans[i].nom); expect(l).toContain(sans[i].prix); });
     expect(html).toContain("Également à la carte");
+  });
+});
+
+describe("photos Wikimedia Commons : crédits obligatoires (CC BY-SA 4.0)", () => {
+  const COMMONS = menu.filter((p) => p.credit);
+
+  it("trois plats illustrés par Commons, fichiers locaux présents", () => {
+    expect(COMMONS.map((p) => p.nom).sort()).toEqual(["Pastels au thon", "Poisson braisé", "Poulet frites"]);
+    for (const p of COMMONS) expect(existsSync(join(RACINE, "public", p.img!)), p.nom).toBe(true);
+  });
+
+  it("chaque photo a son auteur, sa licence avec lien et sa page source", () => {
+    for (const p of COMMONS) {
+      const c = p.credit!;
+      expect(c.auteur.trim(), p.nom).not.toBe("");
+      expect(c.licence).toBe("CC BY-SA 4.0");
+      expect(c.licenceUrl).toBe("https://creativecommons.org/licenses/by-sa/4.0/deed.fr");
+      expect(c.source, p.nom).toMatch(/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
+    }
+  });
+
+  it("le texte alternatif décrit ce que montre la photo (fataya, pas « pastels »)", () => {
+    const pastels = menu.find((p) => p.nom === "Pastels au thon")!;
+    expect(pastels.imgAlt).toMatch(/fataya/i);
+    const html = renderToString(<MenuGrid plats={menu} />);
+    expect(html).toMatch(/<img[^>]*alt="[^"]*[Ff]ataya[^"]*"/);
+  });
+
+  it("la description du poisson braisé correspond à la photo (dorade, pommes de terre)", () => {
+    const poisson = menu.find((p) => p.nom === "Poisson braisé")!;
+    expect(poisson.desc).toMatch(/dorade/i);
+    expect(poisson.desc).toMatch(/pommes de terre/i);
+    expect(poisson.desc).not.toMatch(/capitaine|attiéké/i);
+  });
+
+  it("la page Carte affiche une section « Crédits photos » avec auteur, licence et source", async () => {
+    const { default: MenuPage } = await import("./menu/page");
+    const html = renderToString(MenuPage());
+    expect(html).toContain("Crédits photos");
+    for (const p of COMMONS) {
+      const c = p.credit!;
+      expect(html, p.nom).toContain(c.auteur);
+      expect(html).toContain(`href="${c.licenceUrl}"`);
+      expect(html).toContain(`href="${c.source}"`);
+    }
   });
 });

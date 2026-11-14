@@ -216,7 +216,19 @@ npm run db:migrate   # apply migrations
 
 ## 📄 License
 
-[MIT](LICENSE)
+[MIT](LICENSE) for the code.
+
+### Photo credits
+
+The code license does not cover the photos.
+
+- `public/plats/` (thiéboudienne, thiébou yapp, yassa, mafé, mbaxalou, bouye): the author's own photos or free-to-use images.
+- Three dishes use photos from Wikimedia Commons under **CC BY-SA 4.0**, credited on the menu page:
+  - Pastels au thon: [Fataya](https://commons.wikimedia.org/wiki/File:Fataya.jpg) by Cheikh cherif (cropped and resized);
+  - Poulet frites: [Plat de frites au poulet](https://commons.wikimedia.org/wiki/File:Plat_de_frites_au_poulet.jpg) by Mandanye;
+  - Poisson braisé: [Dorate grillé à la sénégalaise](https://commons.wikimedia.org/wiki/File:Dorate_grill%C3%A9_%C3%A0_la_s%C3%A9n%C3%A9galaise.jpg) by Ourytima (cropped and resized).
+- Brochettes (dibi): Unsplash photo (Unsplash license).
+- Dishes with no faithful photo are listed without an image, rather than illustrated with a photo of another dish.
 
 ---
 
