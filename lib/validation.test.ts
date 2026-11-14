@@ -95,7 +95,7 @@ describe("carte (menu)", () => {
 
   it("chaque image locale existe dans public/", () => {
     for (const p of menu) {
-      if (!p.img.startsWith("/")) continue;
+      if (!p.img?.startsWith("/")) continue;
       expect(existsSync(join(PUBLIC, p.img))).toBe(true);
     }
   });

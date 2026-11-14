@@ -18,7 +18,12 @@ export type Plat = {
   desc: string;
   prix: string;
   cat: CategorieId;
-  img: string;
+  /**
+   * Photo du plat (locale dans public/plats/ de préférence). Absente quand on
+   * n'a pas de photo fidèle : mieux vaut pas de photo qu'une photo d'un autre
+   * plat. La carte affiche alors une carte « texte ».
+   */
+  img?: string;
   /** Plat mis en avant sur l'accueil. */
   signature?: boolean;
 };
@@ -29,14 +34,12 @@ export const menu: Plat[] = [
     desc: "Beignets croustillants farcis au thon épicé, sauce maison",
     prix: "1 500 F",
     cat: "entrees",
-    img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80",
   },
   {
     nom: "Accras de crevettes",
     desc: "Beignets de crevettes, oignons et piment doux",
     prix: "2 000 F",
     cat: "entrees",
-    img: "https://images.unsplash.com/photo-1626804475297-41608ea09aeb?auto=format&fit=crop&w=800&q=80",
   },
   {
     nom: "Thiéboudienne",
@@ -81,14 +84,12 @@ export const menu: Plat[] = [
     desc: "Poulet grillé mariné, frites maison, sauce oignon",
     prix: "4 000 F",
     cat: "diner",
-    img: "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?auto=format&fit=crop&w=800&q=80",
   },
   {
     nom: "Poisson braisé",
     desc: "Capitaine grillé, attiéké ou riz, sauce oignon citronnée",
     prix: "5 000 F",
     cat: "diner",
-    img: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
   },
   {
     nom: "Brochettes de bœuf (dibi)",
@@ -102,21 +103,18 @@ export const menu: Plat[] = [
     desc: "Mil, lait caillé, raisins secs, fleur d'oranger",
     prix: "1 500 F",
     cat: "desserts",
-    img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=800&q=80",
   },
   {
     nom: "Sombi",
     desc: "Riz au lait de coco, vanille et cannelle",
     prix: "1 500 F",
     cat: "desserts",
-    img: "https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=800&q=80",
   },
   {
     nom: "Bissap glacé",
     desc: "Jus d'hibiscus frais, légèrement sucré",
     prix: "1 000 F",
     cat: "boissons",
-    img: "https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=800&q=80",
   },
   {
     nom: "Bouye",
@@ -130,7 +128,6 @@ export const menu: Plat[] = [
     desc: "Gingembre pressé, citron vert, menthe",
     prix: "1 000 F",
     cat: "boissons",
-    img: "https://images.unsplash.com/photo-1622597467836-f3285f2131b8?auto=format&fit=crop&w=800&q=80",
   },
 ];
 
