@@ -9,7 +9,6 @@ export function cheminInterne(suite: string | null | undefined, defaut = "/admin
   if (!suite) return defaut;
   if (!suite.startsWith("/")) return defaut;
   if (suite.startsWith("//") || suite.startsWith("/\\")) return defaut;
-  // eslint-disable-next-line no-control-regex
   if (/[\u0000-\u001f\u007f]/.test(suite)) return defaut;
   return suite;
 }
