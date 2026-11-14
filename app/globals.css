@@ -403,6 +403,24 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.
   color: var(--muted);
   line-height: 1.6;
 }
+/* Liste façon carte de restaurant : plats sans photo fidèle (mieux vaut pas
+   de photo qu'une photo d'un autre plat). Nom · pointillés · prix, puis la
+   description ; deux colonnes à partir de 800 px. */
+.menu-liste { margin-top: 3.5rem; }
+.menu-liste-titre {
+  text-align: center;
+  font-size: clamp(1.5rem, 3vw, 1.9rem);
+  margin-bottom: 1.75rem;
+}
+.menu-liste ul { list-style: none; display: grid; gap: 0 3rem; }
+@media (min-width: 800px) { .menu-liste ul { grid-template-columns: 1fr 1fr; } }
+.plat-ligne { padding: 1.1rem 0; border-bottom: 1px solid var(--border); }
+.plat-ligne-tete { display: flex; align-items: baseline; gap: 0.6rem; }
+.plat-ligne-tete h3 { font-size: 1.2rem; font-style: italic; }
+.plat-ligne-pointilles { flex: 1; border-bottom: 2px dotted var(--border-gold); transform: translateY(-0.3em); min-width: 1.5rem; }
+.plat-ligne-prix { font-weight: 700; color: var(--gold-text); white-space: nowrap; }
+.plat-ligne-desc { color: var(--muted); font-size: 0.95rem; margin-top: 0.3rem; line-height: 1.55; }
+
 /* Prix en médaillon doré, ancré en haut à droite du corps */
 .card-body .card-price {
   position: absolute;
