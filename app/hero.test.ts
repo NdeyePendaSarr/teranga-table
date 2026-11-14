@@ -85,3 +85,17 @@ describe("hero : photo de fond des piments du marché", () => {
     }
   });
 });
+
+/** L'accroche « Restaurant · Mbour » hérite de la taille des paragraphes du hero : sur mobile elle passait sur deux lignes. */
+describe("hero : accroche sur une seule ligne sur mobile", () => {
+  it("une règle pour petits écrans réduit l'accroche et interdit le retour à la ligne", () => {
+    const blocs = [...css.matchAll(/@media \(max-width: (\d+)px\) \{([\s\S]*?)\n\}/g)];
+    const regle = blocs
+      .filter((m) => Number(m[1]) <= 480)
+      .map((m) => m[2].match(/\.hero \.eyebrow \{[^}]*\}/)?.[0])
+      .find(Boolean) ?? "";
+    expect(regle).toMatch(/white-space: nowrap/);
+    expect(regle).toMatch(/font-size:/);
+    expect(regle).toMatch(/letter-spacing:/);
+  });
+});
