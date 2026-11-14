@@ -1,11 +1,11 @@
 /**
- * Photos des cartes de plats. Les cartes font ~370 px de large au plus : on
- * sert des WebP de 400 et 800 px (écrans haute densité) plutôt que les JPEG
- * d'origine de 800 px, qui restent dans public/plats/ comme fichiers sources.
+ * Photos des cartes de plats. Les cartes font ~370 px de large au plus : le
+ * menu pointe vers la version WebP de 800 px (écrans haute densité) et on
+ * propose aussi celle de 400 px au navigateur.
  */
 export function imagePlat(img: string): { src: string; srcSet: string } {
-  if (img.startsWith("/plats/") && img.endsWith(".jpg")) {
-    const base = img.slice(0, -".jpg".length);
+  if (img.startsWith("/plats/") && img.endsWith("-800.webp")) {
+    const base = img.slice(0, -"-800.webp".length);
     return { src: `${base}-800.webp`, srcSet: `${base}-400.webp 400w, ${base}-800.webp 800w` };
   }
   // Photo distante (Unsplash) : la largeur se règle par le paramètre w de l'URL.
