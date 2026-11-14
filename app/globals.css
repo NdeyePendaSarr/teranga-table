@@ -527,27 +527,23 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.
 @media (min-width: 800px) {
   .about-grid { grid-template-columns: 1fr 1fr; gap: 3.5rem; }
 }
-/* À propos sans photo : une colonne de lecture centrée (~70 caractères) */
-.about-grid--texte { max-width: 720px; margin-inline: auto; }
-@media (min-width: 800px) {
-  .about-grid--texte { grid-template-columns: 1fr; }
-}
 .about-text p {
   margin-bottom: 1.1rem;
   color: var(--ink-soft);
   font-size: 1.05rem;
 }
-.about-image {
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: var(--shadow-lg);
-  aspect-ratio: 4/5;
-}
 .about-image img {
+  display: block;
   width: 100%;
-  height: 100%;
+  height: auto;
+  aspect-ratio: 4/3;
   object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
 }
+/* Légende : ce que montre la photo, puis le crédit exigé par la licence */
+.about-image figcaption { margin-top: 0.75rem; font-size: 0.85rem; color: var(--muted); }
+.about-image figcaption a { color: var(--ink-soft); text-decoration: underline; text-underline-offset: 2px; }
 
 /* ---- Form ---- */
 .form-card {
