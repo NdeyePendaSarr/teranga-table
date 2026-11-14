@@ -104,7 +104,7 @@ export const menu: Plat[] = [
     prix: "4 000 F",
     cat: "diner",
     img: "/plats/poulet-frites.jpg",
-    credit: { auteur: "Mandanye", ...CC_BY_SA_4, source: "https://commons.wikimedia.org/wiki/File:Plat_de_frites_au_poulet.jpg" },
+    credit: { auteur: "Mandanye", ...CC_BY_SA_4, source: "https://commons.wikimedia.org/wiki/File:Plat_de_frites_au_poulet.jpg", modification: "redimensionnée" },
   },
   {
     nom: "Poisson braisé",
