@@ -349,6 +349,11 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.
   max-width: 32rem;
   margin-inline: auto;
 }
+/* L'accroche est un <p> : elle prend la taille des paragraphes du hero.
+   Sur petit écran, on la réduit pour qu'elle tienne sur une ligne. */
+@media (max-width: 480px) {
+  .hero .eyebrow { font-size: 0.85rem; letter-spacing: 0.2em; white-space: nowrap; }
+}
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
