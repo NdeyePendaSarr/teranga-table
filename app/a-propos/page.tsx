@@ -16,8 +16,8 @@ export default function AProposPage() {
       </div>
 
       <section className="section" style={{ paddingTop: "1rem" }}>
-        {/* Texte seul : l'ancienne photo (terrasse sur un lac de montagne) ne pouvait pas être le restaurant de Mbour */}
-        <div className="container about-grid about-grid--texte">
+        {/* Le restaurant est fictif : la photo montre Mbour (pirogues sur la plage), pas une salle présentée comme la sienne */}
+        <div className="container about-grid">
           <div className="about-text reveal">
             <p className="eyebrow">L'esprit</p>
             <h2 style={{ fontSize: "1.8rem", margin: "0.4rem 0 1.25rem" }}>
@@ -42,6 +42,23 @@ export default function AProposPage() {
               <Link href="/reservation" className="btn btn-primary">Réserver une table</Link>
             </p>
           </div>
+
+          <figure className="about-image reveal">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/a-propos/pirogues-mbour.jpg"
+              alt="Pirogues de pêche peintes alignées sur la plage de Mbour, au coucher du soleil"
+              width={800}
+              height={600}
+            />
+            <figcaption>
+              Pirogues sur la plage de Mbour. Photo de{" "}
+              <a href="https://commons.wikimedia.org/wiki/File:Piroghe_di_Mbour.jpg">Gerardo Russo</a>{" "}
+              (Wikimedia Commons), licence{" "}
+              <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr">CC BY-SA 4.0</a>, recadrée et
+              redimensionnée.
+            </figcaption>
+          </figure>
         </div>
       </section>
 

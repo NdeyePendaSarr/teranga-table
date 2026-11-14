@@ -182,6 +182,7 @@ La licence MIT du code ne couvre pas les photos.
   - Pastels au thon : [Fataya](https://commons.wikimedia.org/wiki/File:Fataya.jpg), par Cheikh cherif (recadrée et redimensionnée) ;
   - Poulet frites : [Plat de frites au poulet](https://commons.wikimedia.org/wiki/File:Plat_de_frites_au_poulet.jpg), par Mandanye ;
   - Poisson braisé : [Dorate grillé à la sénégalaise](https://commons.wikimedia.org/wiki/File:Dorate_grill%C3%A9_%C3%A0_la_s%C3%A9n%C3%A9galaise.jpg), par Ourytima (recadrée et redimensionnée).
+- Page À propos : [Piroghe di Mbour](https://commons.wikimedia.org/wiki/File:Piroghe_di_Mbour.jpg), par Gerardo Russo, CC BY-SA 4.0 (recadrée et redimensionnée), créditée dans sa légende. Elle montre la ville réelle, pas le restaurant fictif.
 - Brochettes (dibi) : photo Unsplash (licence Unsplash).
 - Les plats sans photo fidèle sont présentés sans image, plutôt qu'illustrés par la photo d'un autre plat.
 
