@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { site, lienWhatsApp } from "@/content/site";
 import { signatures } from "@/content/menu";
+import { imagePlat, TAILLES_CARTE } from "@/lib/imagePlat";
 
 const avis = [
   "« Le meilleur thiéb que j'ai mangé à Mbour depuis longtemps. Accueil chaleureux, assiettes généreuses. »",
@@ -60,7 +61,7 @@ export default function AccueilPage() {
             {signatures.map((p) => (
               <article className="card reveal" key={p.nom}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="card-img" src={p.img} alt={p.nom} width={400} height={275} loading="lazy" />
+                <img className="card-img" {...imagePlat(p.img!)} sizes={TAILLES_CARTE} alt={p.nom} width={400} height={275} loading="lazy" />
                 <div className="card-body">
                   <h3>{p.nom}</h3>
                   <p>{p.desc}</p>
