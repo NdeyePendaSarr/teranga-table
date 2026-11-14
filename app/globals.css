@@ -521,6 +521,11 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.
 @media (min-width: 800px) {
   .about-grid { grid-template-columns: 1fr 1fr; gap: 3.5rem; }
 }
+/* À propos sans photo : une colonne de lecture centrée (~70 caractères) */
+.about-grid--texte { max-width: 720px; margin-inline: auto; }
+@media (min-width: 800px) {
+  .about-grid--texte { grid-template-columns: 1fr; }
+}
 .about-text p {
   margin-bottom: 1.1rem;
   color: var(--ink-soft);
