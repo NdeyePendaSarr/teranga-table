@@ -31,6 +31,18 @@ const dmSans = localFont({
   fallback: ["DM Sans Fallback", "Arial", "sans-serif"],
 });
 
+// Image d'aperçu des liens partagés (WhatsApp, réseaux sociaux) : JPEG
+// 1200 × 630 de 69 kB dans public/. Déclarée ici plutôt que par le fichier
+// app/opengraph-image.jpg, car Turbopack ignore les fichiers .alt.txt : le
+// texte alternatif n'était pas publié.
+const IMAGE_PARTAGE = {
+  url: "/og-teranga-table.jpg",
+  width: 1200,
+  height: 630,
+  type: "image/jpeg",
+  alt: "Teranga Table, restaurant sénégalais à Mbour : « La cuisine sénégalaise, revisitée ». Réservation en ligne.",
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
@@ -38,17 +50,17 @@ export const metadata: Metadata = {
     template: `%s — ${site.nom}`,
   },
   description: site.description,
-  icons: {
-    icon: "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Ctext%20y='.9em'%20font-size='90'%3E🍽️%3C/text%3E%3C/svg%3E",
-  },
+  // Icônes : fichiers de app/ (favicon.ico, icon.png, apple-icon.png), pris
+  // en compte automatiquement par Next.js.
   openGraph: {
     title: `${site.nom} — Restaurant sénégalais à Mbour`,
     description: site.description,
     type: "website",
     locale: "fr_FR",
     url: site.url,
+    images: [IMAGE_PARTAGE],
   },
-  twitter: { card: "summary_large_image" },
+  twitter: { card: "summary_large_image", images: [IMAGE_PARTAGE] },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
