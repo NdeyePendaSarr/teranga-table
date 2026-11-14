@@ -153,6 +153,12 @@ export const menu: Plat[] = [
     prix: "1 000 F",
     cat: "boissons",
   },
+  {
+    nom: "Café Touba",
+    desc: "Café torréfié au poivre de Guinée (djar), servi bien chaud",
+    prix: "500 F",
+    cat: "boissons",
+  },
 ];
 
 export const signatures = menu.filter((p) => p.signature);
