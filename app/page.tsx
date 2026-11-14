@@ -12,6 +12,20 @@ export default function AccueilPage() {
     <>
       {/* Hero */}
       <section className="hero">
+        {/* Photo décorative (alt vide) : piments d'un marché sénégalais, sous un
+            voile sombre. Version portrait pour les mobiles, chargée en priorité. */}
+        <picture className="hero-photo">
+          <source media="(orientation: portrait) and (max-width: 767px)" srcSet="/hero/piments-portrait.webp" />
+          <img
+            src="/hero/piments-1920.webp"
+            srcSet="/hero/piments-1280.webp 1280w, /hero/piments-1920.webp 1920w"
+            sizes="100vw"
+            alt=""
+            width={1920}
+            height={1078}
+            fetchPriority="high"
+          />
+        </picture>
         <div className="hero-content">
           <p className="eyebrow" style={{ color: "#fcd34d" }}>Restaurant · Mbour</p>
           <h1>{site.slogan}</h1>
@@ -26,6 +40,12 @@ export default function AccueilPage() {
             <div><strong>Réservation</strong><span>{site.telephone}</span></div>
           </div>
         </div>
+        <p className="hero-credit">
+          Photo : piments au marché de Notto Gouye Diama, par{" "}
+          <a href="https://commons.wikimedia.org/wiki/File:Des_cassettes_de_piments_et_de_poivrons_sur_une_table_au_march%C3%A9_de_Notto_Gouy_Diama.jpg">Thiam Babel Design</a>{" "}
+          (Wikimedia Commons), licence{" "}
+          <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr">CC BY-SA 4.0</a>, recadrée et redimensionnée.
+        </p>
       </section>
 
       {/* Signatures */}
