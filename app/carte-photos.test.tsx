@@ -98,6 +98,13 @@ describe("photos Wikimedia Commons : crédits obligatoires (CC BY-SA 4.0)", () =
     expect(html).toMatch(/<img[^>]*alt="[^"]*[Ff]ataya[^"]*"/);
   });
 
+  it("la description du poisson braisé correspond à la photo (dorade, pommes de terre)", () => {
+    const poisson = menu.find((p) => p.nom === "Poisson braisé")!;
+    expect(poisson.desc).toMatch(/dorade/i);
+    expect(poisson.desc).toMatch(/pommes de terre/i);
+    expect(poisson.desc).not.toMatch(/capitaine|attiéké/i);
+  });
+
   it("la page Carte affiche une section « Crédits photos » avec auteur, licence et source", async () => {
     const { default: MenuPage } = await import("./menu/page");
     const html = renderToString(MenuPage());

@@ -108,7 +108,7 @@ export const menu: Plat[] = [
   },
   {
     nom: "Poisson braisé",
-    desc: "Capitaine grillé, attiéké ou riz, sauce oignon citronnée",
+    desc: "Dorade grillée à la sénégalaise, pommes de terre sautées, sauce oignon citronnée",
     prix: "5 000 F",
     cat: "diner",
     img: "/plats/poisson-braise-dorade.jpg",
