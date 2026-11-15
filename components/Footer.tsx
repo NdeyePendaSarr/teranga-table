@@ -26,9 +26,6 @@ export function Footer() {
               <li><Link href="/menu">Carte</Link></li>
               <li><Link href="/a-propos">À propos</Link></li>
               <li><Link href="/reservation">Réserver</Link></li>
-              {site.instagram ? (
-                <li><a href={site.instagram} target="_blank" rel="noopener noreferrer">Instagram</a></li>
-              ) : null}
             </ul>
           </div>
         </div>
