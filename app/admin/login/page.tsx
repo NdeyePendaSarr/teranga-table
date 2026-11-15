@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { cheminInterne } from "@/lib/redirect";
+import { ChampMotDePasse } from "@/components/ChampMotDePasse";
 
 function LoginForm() {
   const router = useRouter();
@@ -33,10 +34,7 @@ function LoginForm() {
 
   return (
     <form className="form-card login-card" onSubmit={onSubmit}>
-      <div className="form-group">
-        <label htmlFor="mdp">Mot de passe administrateur</label>
-        <input id="mdp" type="password" value={motDePasse} onChange={(e) => setMotDePasse(e.target.value)} required autoFocus />
-      </div>
+      <ChampMotDePasse id="mdp" label="Mot de passe administrateur" value={motDePasse} onChange={setMotDePasse} autoFocus />
       {erreur && <div className="form-message error">{erreur}</div>}
       <button type="submit" className="btn btn-primary" style={{ width: "100%", marginTop: "1rem" }} disabled={envoi}>
         {envoi ? "Connexion…" : "Se connecter"}

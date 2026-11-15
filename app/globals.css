@@ -1060,3 +1060,21 @@ textarea:focus-visible, select:focus-visible {
 .btn-mini:hover:not(:disabled) { border-color: var(--gold); color: var(--gold-text); }
 .btn-mini:disabled { opacity: 0.4; cursor: not-allowed; }
 .login-card { max-width: 380px; margin-inline: auto; }
+/* Champ mot de passe : bouton « œil » dans le champ, cible de 44 px, texte dégagé à droite */
+.champ-mdp { position: relative; }
+.champ-mdp input { padding-right: 3rem; }
+.champ-mdp-oeil {
+  position: absolute;
+  top: 50%;
+  right: 0.25rem;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--ink-soft);
+  transition: background var(--transition), color var(--transition);
+}
+.champ-mdp-oeil:hover { background: var(--gold-pale); color: var(--gold-text); }
