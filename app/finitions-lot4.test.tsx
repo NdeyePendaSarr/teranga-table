@@ -28,3 +28,17 @@ describe("photo de la page À propos : pas téléchargée depuis les autres page
     expect(img).toMatch(/loading="lazy"/);
   });
 });
+
+describe("pied de page : accès à l'espace équipe", () => {
+  const html = renderToString(<Footer />);
+  const lien = html.match(/<a[^>]*href="\/admin"[^>]*>[^<]*<\/a>/)?.[0] ?? "";
+
+  it("un lien « Espace équipe » mène à /admin (la connexion s'affiche si besoin)", () => {
+    expect(lien).toMatch(/>Espace équipe<\/a>$/);
+  });
+
+  it("le lien n'est pas dans la navigation principale, réservée aux clients", async () => {
+    const { Header } = await import("@/components/Header");
+    expect(renderToString(<Header />)).not.toMatch(/href="\/admin/);
+  });
+});

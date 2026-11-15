@@ -26,6 +26,9 @@ export function Footer() {
               <li><Link href="/menu">Carte</Link></li>
               <li><Link href="/a-propos">À propos</Link></li>
               <li><Link href="/reservation">Réserver</Link></li>
+              {/* Accès équipe : /admin affiche la connexion si besoin (middleware), sinon les réservations.
+                  Pas de préchargement : la route admin n'a rien à faire sur les pages publiques. */}
+              <li><Link href="/admin" prefetch={false}>Espace équipe</Link></li>
             </ul>
           </div>
         </div>
