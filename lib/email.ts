@@ -20,11 +20,11 @@ function jolieDate(iso: string): string {
   return `${j} ${mois[m - 1]} ${a}`;
 }
 
-/** Sujet + textes propres à chaque type d'email. */
-function contenu(r: Reservation, variante: Variante) {
-  // Le prénom vient du formulaire public : on l'échappe avant de l'insérer
-  // dans le HTML de l'email (anti-injection / phishing).
-  const prenom = echapperHtml(r.prenom);
+/**
+ * Sujet + textes propres à chaque type d'email. `prenom` est inséré tel quel :
+ * passer la version échappée pour le HTML, la version brute pour le texte.
+ */
+export function contenu(variante: Variante, prenom: string) {
   switch (variante) {
     case "recue":
       return {
@@ -50,9 +50,12 @@ function contenu(r: Reservation, variante: Variante) {
   }
 }
 
-function gabarit(r: Reservation, c: ReturnType<typeof contenu>): string {
+/** Version HTML (tables et styles en ligne, pour les clients mail). */
+export function gabarit(r: Reservation, c: ReturnType<typeof contenu>): string {
   const or = "#a86518";
   const charcoal = "#17211c";
+  // Texte secondaire : même gris chaud que --muted sur le site (>= 4,5:1 sur blanc et crème).
+  const gris = "#6f6356";
 
   return `<!doctype html><html lang="fr"><body style="margin:0;background:#faf5ec;font-family:Arial,Helvetica,sans-serif;color:${charcoal}">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#faf5ec;padding:32px 16px">
@@ -65,17 +68,37 @@ function gabarit(r: Reservation, c: ReturnType<typeof contenu>): string {
           <h1 style="margin:0 0 12px;font-size:22px;color:${charcoal}">${c.titre}</h1>
           <p style="margin:0 0 20px;line-height:1.6">${c.intro}</p>
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#faf5ec;border-radius:12px;padding:16px;margin-bottom:20px">
-            <tr><td style="padding:6px 12px;color:#8a7d6f;font-size:13px">Date</td><td style="padding:6px 12px;font-weight:700;text-align:right">${echapperHtml(jolieDate(r.date))}</td></tr>
-            <tr><td style="padding:6px 12px;color:#8a7d6f;font-size:13px">Heure</td><td style="padding:6px 12px;font-weight:700;text-align:right">${echapperHtml(r.heure)}</td></tr>
-            <tr><td style="padding:6px 12px;color:#8a7d6f;font-size:13px">Personnes</td><td style="padding:6px 12px;font-weight:700;text-align:right">${echapperHtml(r.personnes)}</td></tr>
+            <tr><td style="padding:6px 12px;color:${gris};font-size:13px">Date</td><td style="padding:6px 12px;font-weight:700;text-align:right">${echapperHtml(jolieDate(r.date))}</td></tr>
+            <tr><td style="padding:6px 12px;color:${gris};font-size:13px">Heure</td><td style="padding:6px 12px;font-weight:700;text-align:right">${echapperHtml(r.heure)}</td></tr>
+            <tr><td style="padding:6px 12px;color:${gris};font-size:13px">Personnes</td><td style="padding:6px 12px;font-weight:700;text-align:right">${echapperHtml(r.personnes)}</td></tr>
           </table>
           <p style="margin:0 0 8px;line-height:1.6">${c.clore}</p>
-          <p style="margin:20px 0 0;font-size:13px;color:#8a7d6f">${site.nom} · ${site.adresseDetail}<br>${site.telephone}</p>
+          <p style="margin:20px 0 0;font-size:13px;color:${gris}">${site.nom} · ${site.adresseDetail}<br>${site.telephone}</p>
         </td></tr>
       </table>
-      <p style="max-width:520px;margin:16px auto 0;font-size:12px;color:#8a7d6f">Cet email vous est envoyé suite à votre demande de réservation chez ${site.nom}.</p>
+      <p style="max-width:520px;margin:16px auto 0;font-size:12px;color:${gris}">Cet email vous est envoyé suite à votre demande de réservation chez ${site.nom}.</p>
     </td></tr>
   </table></body></html>`;
+}
+
+/** Version texte brut : même contenu que le HTML, pour les clients texte, les lecteurs d'écran et les filtres anti-spam. */
+export function texteBrut(r: Reservation, c: ReturnType<typeof contenu>): string {
+  return [
+    c.titre,
+    "",
+    c.intro,
+    "",
+    `Date : ${jolieDate(r.date)}`,
+    `Heure : ${r.heure}`,
+    `Personnes : ${r.personnes}`,
+    "",
+    c.clore,
+    "",
+    `${site.nom} · ${site.adresseDetail}`,
+    site.telephone,
+    "",
+    `Cet email vous est envoyé suite à votre demande de réservation chez ${site.nom}.`,
+  ].join("\n");
 }
 
 /**
@@ -88,7 +111,10 @@ async function envoyer(r: Reservation, variante: Variante): Promise<void> {
     return;
   }
 
-  const c = contenu(r, variante);
+  // Prénom saisi par le public : échappé dans le HTML (anti-injection), brut dans le texte.
+  const c = contenu(variante, r.prenom);
+  const html = gabarit(r, contenu(variante, echapperHtml(r.prenom)));
+  const texte = texteBrut(r, c);
   try {
     const res = await fetch("https://api.brevo.com/v3/smtp/email", {
       method: "POST",
@@ -101,7 +127,8 @@ async function envoyer(r: Reservation, variante: Variante): Promise<void> {
         sender: { name: FROM_NAME, email: FROM_EMAIL },
         to: [{ email: r.email, name: `${r.prenom} ${r.nom}` }],
         subject: c.sujet,
-        htmlContent: gabarit(r, c),
+        htmlContent: html,
+        textContent: texte,
       }),
     });
     if (!res.ok) {

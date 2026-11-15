@@ -27,10 +27,6 @@ export const site = {
     { jour: "Dimanche", heures: "12h – 16h" },
   ] as Horaire[],
 
-  instagram: "https://instagram.com/",
-  facebook: "https://facebook.com/",
-  tiktok: "",
-
   url: "https://teranga-table.vercel.app",
 } as const;
 
