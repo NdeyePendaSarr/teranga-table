@@ -50,6 +50,7 @@ export default function AProposPage() {
               alt="Pirogues de pêche peintes alignées sur la plage de Mbour, au coucher du soleil"
               width={800}
               height={600}
+              loading="lazy"
             />
             <figcaption>
               Pirogues sur la plage de Mbour. Photo de{" "}
