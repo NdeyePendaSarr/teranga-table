@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { renderToString } from "react-dom/server";
 import { ReservationForm } from "./ReservationForm";
+import { erreursParChamp, LIBELLES, resumeErreurs } from "@/lib/erreursFormulaire";
 
 const html = renderToString(<ReservationForm />);
 const champ = (id: string) => html.match(new RegExp(`<input[^>]*id="${id}"[^>]*>|<select[^>]*id="${id}"[^>]*>|<textarea[^>]*id="${id}"[^>]*>`))?.[0] ?? "";
@@ -40,5 +41,34 @@ describe("téléphone : le motif accepte le format montré dans le placeholder",
     const title = attr(tel, "title") ?? "";
     expect(title).toMatch(/commençant par 7/);
     expect(title).toMatch(/77 123 45 67/);
+  });
+});
+
+describe("erreurs par champ renvoyées par l'API", () => {
+  it("relie chaque champ de l'API à son champ du formulaire, premier message seulement", () => {
+    expect(erreursParChamp({ telephone: ["Numéro sénégalais invalide", "autre"], date: ["La date ne peut pas être dans le passé"] })).toEqual({
+      phone: "Numéro sénégalais invalide",
+      date: "La date ne peut pas être dans le passé",
+    });
+  });
+
+  it("ignore les champs inconnus et les formes inattendues", () => {
+    expect(erreursParChamp({ inconnu: ["x"], prenom: [] })).toEqual({});
+    expect(erreursParChamp(null)).toEqual({});
+    expect(erreursParChamp("texte")).toEqual({});
+  });
+
+  it("résume les erreurs en une phrase lisible, avec les libellés des champs", () => {
+    expect(resumeErreurs({ phone: "x", date: "y" })).toBe("2 champs à corriger : Téléphone, Date.");
+    expect(resumeErreurs({ email: "x" })).toBe("1 champ à corriger : Email.");
+    expect(Object.values(LIBELLES)).toContain("Nombre de personnes");
+  });
+
+  it("au premier rendu, aucun champ n'est marqué invalide et les aides sont reliées aux champs", () => {
+    expect(html).not.toContain('aria-invalid="true"');
+    expect(attr(champ("phone"), "aria-describedby")).toBe("aide-phone");
+    expect(attr(champ("guests"), "aria-describedby")).toBe("aide-guests");
+    expect(html).toMatch(/<p[^>]*id="aide-phone"/);
+    expect(html).toMatch(/<p[^>]*id="aide-guests"/);
   });
 });

@@ -660,6 +660,10 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.
 .form-message.hidden { display: none; }
 /* Résultat d'un envoi sans JavaScript, affiché au-dessus du formulaire */
 .form-issue { max-width: 640px; margin: 0 auto 1.25rem; }
+/* Erreur renvoyée par l'API, sous le champ concerné (relié par aria-describedby) */
+.form-erreur { font-size: 0.85rem; font-weight: 500; color: #991b1b; margin-top: 0.35rem; }
+.form-group [aria-invalid="true"] { border-color: #b91c1c; }
+.form-group [aria-invalid="true"]:focus { box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.15); }
 
 /* ---- Map ---- */
 
