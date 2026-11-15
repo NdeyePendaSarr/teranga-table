@@ -8,6 +8,13 @@ type Etat =
   | { statut: "idle" | "envoi" | "ok" }
   | { statut: "erreur"; message: string };
 
+// Motif du téléphone, côté navigateur : mobile sénégalais (9 chiffres commençant
+// par 7), indicatif +221 ou 00221 facultatif, espaces et points tolérés entre
+// les chiffres. Même règle que le serveur (lib/validation.ts), qui retire les
+// espaces et les points avant de vérifier.
+const MOTIF_TELEPHONE = "(\\+221|00221)?[\\s.]*7([\\s.]*[0-9]){8}";
+const AIDE_TELEPHONE = "9 chiffres commençant par 7, avec ou sans +221 (ex. 77 123 45 67)";
+
 export function ReservationForm() {
   const [etat, setEtat] = useState<Etat>({ statut: "idle" });
 
@@ -55,7 +62,7 @@ export function ReservationForm() {
           <label htmlFor="phone">Téléphone <span className="required">*</span></label>
           <input
             type="tel" id="phone" name="telephone" required autoComplete="tel"
-            pattern="^(\+221|00221)?7[0-9]{8}$" placeholder="+221 77 000 00 00"
+            pattern={MOTIF_TELEPHONE} title={AIDE_TELEPHONE} placeholder="+221 77 000 00 00"
           />
           <p className="form-hint">Format sénégalais : 77 / 76 / 78 / 70…</p>
         </div>
