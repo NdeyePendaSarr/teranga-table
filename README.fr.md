@@ -68,9 +68,12 @@ un template aux couleurs du restaurant (date, heure, nombre de personnes).
 - **Authentification** : connexion par mot de passe → **cookie de session signé
   (JWT via jose)**, `middleware` qui protège `/admin`, comparaison du mot de
   passe à temps constant.
-- **Animations** : reveal au scroll en cascade, entrée du hero, cartes animées
-  au changement de filtre, micro-interactions — le tout désactivé si
-  `prefers-reduced-motion`.
+- **Animations** : révélation au défilement en CSS pur (léger glissement, en
+  cascade dans les groupes, sans fondu ; les navigateurs sans
+  `animation-timeline` affichent simplement le contenu), cartes animées au
+  changement de filtre de la carte, micro-interactions au survol. Le hero n'a
+  pas d'animation d'entrée : le titre s'affiche dès le premier rendu. Le tout
+  est désactivé si `prefers-reduced-motion`.
 
 ## 🧱 Stack & architecture
 

@@ -79,9 +79,11 @@ branded template (date, time, party size).
     login (5 / 15 min), answering `429` with `Retry-After`;
   - a **honeypot field** silently drops bot submissions;
   - the post-login redirect only accepts internal paths (no open redirect).
-- **Animations**: staggered scroll reveal, hero entrance, animated cards when
-  the filter changes, micro-interactions — all disabled under
-  `prefers-reduced-motion`.
+- **Animations**: CSS-only scroll reveal (a short slide, staggered within
+  groups, no fade; browsers without `animation-timeline` simply show the
+  content), animated cards when the menu filter changes, hover
+  micro-interactions. The hero has no entrance animation: the title shows on
+  first paint. Everything is disabled under `prefers-reduced-motion`.
 
 ## 🧱 Stack & architecture
 
