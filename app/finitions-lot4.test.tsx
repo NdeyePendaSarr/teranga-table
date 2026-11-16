@@ -42,3 +42,29 @@ describe("pied de page : accès à l'espace équipe", () => {
     expect(renderToString(<Header />)).not.toMatch(/href="\/admin/);
   });
 });
+
+/**
+ * Formulaire sur iPhone : Safari donne au champ date natif une largeur minimale
+ * intrinsèque ; dans la grille, il débordait de la carte. Garde-fou statique :
+ * ce rendu ne se reproduit pas dans Chrome, il se vérifie sur un iPhone.
+ */
+describe("formulaire : le champ date ne déborde pas sur mobile (Safari iOS)", () => {
+  const css = readFileSync(join(process.cwd(), "app", "globals.css"), "utf8");
+  const regle = (selecteur: RegExp) => css.match(new RegExp(`${selecteur.source}\\s*\\{[^}]*\\}`))?.[0] ?? "";
+
+  it("les éléments de la grille du formulaire peuvent rétrécir sous leur contenu", () => {
+    expect(regle(/\n\.form-group/)).toMatch(/min-width:\s*0/);
+  });
+
+  it("le champ date perd l'apparence native qui impose sa largeur, sans dépasser 100 %", () => {
+    const date = regle(/\.form-group input\[type="date"\]/);
+    expect(date).toMatch(/-webkit-appearance:\s*none/);
+    expect(date).toMatch(/appearance:\s*none/);
+    expect(date).toMatch(/min-width:\s*0/);
+    expect(date).toMatch(/max-width:\s*100%/);
+  });
+
+  it("la date s'aligne à gauche, comme les autres champs", () => {
+    expect(regle(/\.form-group input\[type="date"\]::-webkit-date-and-time-value/)).toMatch(/text-align:\s*left/);
+  });
+});
