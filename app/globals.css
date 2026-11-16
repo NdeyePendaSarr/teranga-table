@@ -607,6 +607,9 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.
   .form-grid { grid-template-columns: 1fr 1fr; }
   .form-full { grid-column: 1 / -1; }
 }
+/* Éléments de grille : sans min-width: 0, ils ne rétrécissent pas sous la
+   largeur intrinsèque de leur contenu (le champ date natif de Safari iOS). */
+.form-group { min-width: 0; }
 
 .form-group label {
   display: block;
@@ -629,6 +632,18 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.
   color: var(--ink);
   transition: border-color var(--transition), box-shadow var(--transition);
 }
+/* Champ date sur iPhone : Safari lui impose une largeur minimale et centre la
+   date, ce qui le faisait déborder de la carte. Sans apparence native, il suit
+   la largeur de la colonne ; même hauteur et même alignement que les autres. */
+.form-group input[type="date"] {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 3rem;
+}
+.form-group input[type="date"]::-webkit-date-and-time-value { text-align: left; }
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
